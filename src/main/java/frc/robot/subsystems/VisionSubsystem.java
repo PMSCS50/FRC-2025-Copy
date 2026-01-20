@@ -3,13 +3,16 @@ package frc.robot.subsystems;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
+import edu.wpi.first.apriltag.AprilTagFieldLayout
+    
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera camera;
 
+    public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    
     private boolean hasTarget = false;
     private double targetYaw = 0.0;
     //Suhas: added target pitch, area, skew, and corners
@@ -17,6 +20,8 @@ public class VisionSubsystem extends SubsystemBase {
     private double targetArea = 0.0;
     private double targetSkew = 0.0;
     List<TargetCorner> targetCorners = new ArrayList<>();
+    double poseAmbiguity = 0.0;
+
     
     private int targetID = -1;
 
@@ -43,6 +48,7 @@ public class VisionSubsystem extends SubsystemBase {
         targetArea = target.getArea();
         targetSkew = target.getSkew();
         targetCorners = target.getCorners();
+        poseAmbiguity = target.getPoseAmbiguity();
         
         targetID = target.getFiducialId();
     }
@@ -76,5 +82,17 @@ public class VisionSubsystem extends SubsystemBase {
     public int getTargetID() {
         return targetID;
     }
+
+    public Optional<Transform3d> getbestCameraToTarget() {
+        return hasTarget ? target.getBestCameraToTarget() : Null;
+    }
+/*
+    public Optional<Pose3d> fieldRelativePos() {
+        if (aprilTagFieldLayout.getTagPose(targetID).isPresent()) {
+          Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(getbestCameraToTarget(), aprilTagFieldLayout.getTagPose(targetID).get(), cameraToRobot);
+        }
+    }
+    */
 }
+
 
