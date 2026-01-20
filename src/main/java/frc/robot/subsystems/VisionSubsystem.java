@@ -21,7 +21,8 @@ public class VisionSubsystem extends SubsystemBase {
     private double targetSkew = 0.0;
     List<TargetCorner> targetCorners = new ArrayList<>();
     double poseAmbiguity = 0.0;
-
+    //When camera is mounted, set cameraToRobot
+    Pose3dd cameraToRobot;
     
     private int targetID = -1;
 
@@ -94,5 +95,6 @@ public class VisionSubsystem extends SubsystemBase {
     }
     */
 }
+
 
 
