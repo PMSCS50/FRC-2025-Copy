@@ -7,7 +7,6 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout
     
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.function.*;
 
 public class VisionSubsystem extends SubsystemBase {
 
@@ -16,6 +15,7 @@ public class VisionSubsystem extends SubsystemBase {
     public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
     
     private boolean hasTarget = false;
+    
     //idk if this is private but i will just put it here
     private PhotonTrackedTarget target;
     
@@ -26,15 +26,25 @@ public class VisionSubsystem extends SubsystemBase {
     List<TargetCorner> targetCorners = new ArrayList<>();
     double poseAmbiguity = 0.0;
     //When camera is mounted, set these variables
-    Pose3d cameraToRobot;
-    double cameraHeightMeters;
-    double cameraPitchRadians;
+    private Pose3d cameraToRobot;
+    private final double cameraHeightMeters;
+    private double cameraPitchRadians;
     
     private int targetID = -1;
 
     public VisionSubsystem(String cameraName) {
         camera = new PhotonCamera(cameraName);
     }
+    
+    //Pipeline setters and getters, not sure if we will actually use these.
+    public void setPipeline(int index) {
+        camera.setPipelineIndex(index);
+    }
+    
+    public int getPipeline() {
+        return camera.getPipelineIndex();
+    }
+
 
     @Override
     public void periodic() {
@@ -82,28 +92,34 @@ public class VisionSubsystem extends SubsystemBase {
         return hasTarget ? targetSkew : 0.0;
     }
 
-    public double getTargetCorners() {
-        return hasTarget ? targetCorners : 0.0;
+    public List<TargetCorner> getTargetCorners() {
+        return hasTarget ? targetCorners : List.of();
     }
 
     public int getTargetID() {
         return targetID;
     }
 
-    //Wonder how photonvision handles null values
-    public Transform3d getBestCameraToTarget() {
-        return hasTarget ? target.getBestCameraToTarget() : null;
+    //Checks how reliable the target info is based on poseAmbiguity
+    public boolean hasReliablePose(double maxAmbiguity) {
+        return hasTarget && poseAmbiguity >= 0 && poseAmbiguity < maxAmbiguity;
     }
 
-    public Pose3d fieldRelativePos() {
-        if (aprilTagFieldLayout.getTagPose(targetID).isPresent()) {
-            Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(targetID).get(), cameraToRobot);
-            return robotPose;
-        } else {
-            return null;
+    public Optional<Transform3d> getBestCameraToTarget() {
+        return hasTarget ? Optional.of(target.getBestCameraToTarget()) : Optional.empty();
+    }
+
+
+    public Optional<Pose3d> getFieldRelativePose() {
+        if (!hasTarget) {
+            return Optional.empty();
         }
+        
+        return aprilTagFieldLayout.getTagPose(targetID).map(tagPose -> PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(),tagPose,cameraToRobot));
     }
 
+    //WE NEED cameraHeightMeters and cameraPitchRadians. This method should stay commented until we know those two, and then we can also calculate targetHeightMeters afterward.
+    
     /*
     public double calcDistanceToTarget() {
         return PhotonUtils.calculateDistanceToTargetMeters(double cameraHeightMeters, double targetHeightMeters, double cameraPitchRadians, double targetPitchRadians)
@@ -111,7 +127,9 @@ public class VisionSubsystem extends SubsystemBase {
     */
     
     
+    
 }
+
 
 
 
