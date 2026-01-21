@@ -14,8 +14,10 @@ public class VisionSubsystem extends SubsystemBase {
     public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
     
     private boolean hasTarget = false;
+    //idk if this is private but i will just put it here
+    private PhotonTrackedTarget target;
+    
     private double targetYaw = 0.0;
-    //Suhas: added target pitch, area, skew, and corners
     private double targetPitch = 0.0;
     private double targetArea = 0.0;
     private double targetSkew = 0.0;
@@ -40,7 +42,7 @@ public class VisionSubsystem extends SubsystemBase {
             return;
         }
 
-        PhotonTrackedTarget target = result.getBestTarget();
+        target = result.getBestTarget();
 
         hasTarget = true;
         targetYaw = target.getYaw();
@@ -77,29 +79,31 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public doubel getTargetCorners() {
-        return hasTarget ? targetCOrners : 0.0;
+        return hasTarget ? targetCorners : 0.0;
     }
 
     public int getTargetID() {
         return targetID;
     }
 
-    public Optional<Transform3d> getBestCameraToTarget() {
-        return hasTarget ? target.getBestCameraToTarget() : Null;
+    //Wonder how photonvision handles null values
+    public Transform3d getBestCameraToTarget() {
+        return hasTarget ? target.getBestCameraToTarget() : null;
     }
 
-    public Optional<Pose3d> fieldRelativePos() {
+    public Pose3d fieldRelativePos() {
         if (aprilTagFieldLayout.getTagPose(targetID).isPresent()) {
             Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(targetID).get(), cameraToRobot);
             return robotPose;
         } else {
-            return Null;
+            return null;
         }
     }
 
     
     
 }
+
 
 
 
