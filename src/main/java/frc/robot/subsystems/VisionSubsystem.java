@@ -22,7 +22,7 @@ public class VisionSubsystem extends SubsystemBase {
     List<TargetCorner> targetCorners = new ArrayList<>();
     double poseAmbiguity = 0.0;
     //When camera is mounted, set cameraToRobot
-    Pose3dd cameraToRobot;
+    Pose3d cameraToRobot;
     
     private int targetID = -1;
 
@@ -84,17 +84,23 @@ public class VisionSubsystem extends SubsystemBase {
         return targetID;
     }
 
-    public Optional<Transform3d> getbestCameraToTarget() {
+    public Optional<Transform3d> getBestCameraToTarget() {
         return hasTarget ? target.getBestCameraToTarget() : Null;
     }
-/*
+
     public Optional<Pose3d> fieldRelativePos() {
         if (aprilTagFieldLayout.getTagPose(targetID).isPresent()) {
-          Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(getbestCameraToTarget(), aprilTagFieldLayout.getTagPose(targetID).get(), cameraToRobot);
+            Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(targetID).get(), cameraToRobot);
+            return robotPose;
+        } else {
+            return Null;
         }
     }
-    */
+
+    
+    
 }
+
 
 
 
