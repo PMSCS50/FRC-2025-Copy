@@ -7,6 +7,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout
     
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.function.*;
+
 public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera camera;
@@ -80,7 +82,7 @@ public class VisionSubsystem extends SubsystemBase {
         return hasTarget ? targetSkew : 0.0;
     }
 
-    public doubel getTargetCorners() {
+    public double getTargetCorners() {
         return hasTarget ? targetCorners : 0.0;
     }
 
@@ -110,6 +112,7 @@ public class VisionSubsystem extends SubsystemBase {
     
     
 }
+
 
 
 
