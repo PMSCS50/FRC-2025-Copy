@@ -3,14 +3,14 @@ package frc.robot.subsystems;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-import edu.wpi.first.apriltag.AprilTagFieldLayout
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera camera;
-
+    // CHECKSTYLE:OFF ConstantName
     public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
     
     private boolean hasTarget = false;
@@ -114,7 +114,11 @@ public class VisionSubsystem extends SubsystemBase {
     public Optional<Transform3d> getBestCameraToTarget() {
         return hasTarget ? Optional.of(target.getBestCameraToTarget()) : Optional.empty();
     }
-
+    
+    public Optional<Transform3d> getAlternateCameraToTarget() {
+        return hasTarget ? Optional.of(target.getAlternateCameraToTarget()) : Optional.empty();
+    }
+    
 
     public Optional<Pose3d> getFieldRelativePose() {
         if (!hasTarget) {
@@ -128,9 +132,9 @@ public class VisionSubsystem extends SubsystemBase {
     // This method should stay commented until the camera is properly mounted on the robot, 
     // And then we can also calculate targetHeightMeters afterward.
     
-    /*
-    public double calcDistanceToTarget() {
-        return PhotonUtils.calculateDistanceToTargetMeters(double cameraHeightMeters, double targetHeightMeters, double cameraPitchRadians, double targetPitchRadians)
+    /* 
+    public double calcDistanceToTarget(double cameraHeightMeters, double targetHeightMeters, double cameraPitchRadians, double targetPitchRadians) {
+        return PhotonUtils.calculateDistanceToTargetMeters(cameraHeightMeters, targetHeightMeters, cameraPitchRadians, targetPitchRadians)
     }
     */
     
