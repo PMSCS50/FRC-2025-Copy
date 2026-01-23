@@ -68,6 +68,8 @@ public final class Constants {
       public static final class VisionConstants{
         public static final Pose3d robotToCamera = new Pose3d(0.0,0.0,0.0, new Rotation3d(0.0,0.0,0.0));
         public static final double distanceToTag = 1;
+        public static final AprilTagFieldLayout aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+
       }
 
       public static final double X_REEF_ALIGNMENT_P = 2;
