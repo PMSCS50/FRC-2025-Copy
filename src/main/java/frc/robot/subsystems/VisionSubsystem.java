@@ -122,6 +122,20 @@ public class VisionSubsystem extends SubsystemBase {
         return targetID;
     }
 
+    public double getX() {
+        return robotToTarget != null ? robotToTarget.getX() : 0.0;
+    }
+    public double getY() {
+        return robotToTarget != null ? robotToTarget.getY() : 0.0;
+    }
+    public double getZ() {
+        return robotToTarget != null ? robotToTarget.getZ() : 0.0;
+    }
+
+    public double getRoT() {
+        return robotToTarget != null ? robotToTarget.getRotation().getZ() : 0.0;
+    }
+
     // Checks how reliable the target info is based on poseAmbiguity
     public boolean hasReliablePose(double maxAmbiguity) {
         return hasTarget && poseAmbiguity >= 0 && poseAmbiguity < maxAmbiguity;
@@ -170,3 +184,4 @@ public class VisionSubsystem extends SubsystemBase {
     
     
 }
+
