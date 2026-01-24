@@ -8,11 +8,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
 
-public class FaceAprilTagRelative extends Command {
+public class FaceAprilTagRelative extends CommandBase {
 
     private final CommandSwerveDrivetrain drivetrain;
     private final VisionSubsystem vision;
@@ -23,7 +23,8 @@ public class FaceAprilTagRelative extends Command {
     private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric();
     PIDController xController,yController,rotController;
 
-    private static final double kPRotate = 0.03;
+    // NOTE: This gain must be tuned. We convert yaw (degrees) -> radians before applying.
+    private static final double kPRotate = 2.0;
 
     public FaceAprilTagRelative(
             CommandSwerveDrivetrain drivetrain,
@@ -32,7 +33,7 @@ public class FaceAprilTagRelative extends Command {
             DoubleSupplier yInput)
     {
         xController = new PIDController(Constants.X_REEF_ALIGNMENT_P, 0.0, 0);  // Vertical movement
-        yController = new PIDController(Constants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horitontal movement
+        yController = new PIDController(Constants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horizontal movement
         rotController = new PIDController(Constants.ROT_REEF_ALIGNMENT_P, 0, 0);  // Rotation
 
         this.drivetrain = drivetrain;
@@ -48,23 +49,28 @@ public class FaceAprilTagRelative extends Command {
     public void initialize() {
         // Nothing needed on start
     }
-/* 
+
     @Override
     public void execute() {
         double vx = xInput.getAsDouble();
         double vy = yInput.getAsDouble();
-        double omega = 0;
+        //requires elite ball knowledge. 
+        double omegaShenron = 0;
 
         PhotonPipelineResult result = vision.getLatestResult();
         if (result.hasTargets()) {
             PhotonTrackedTarget target = result.getBestTarget();
-            omega = target.getYaw() * kPRotate;
+            // target.getYaw() is in degrees (PhotonVision). Convert to radians.
+            double yawRad = Math.toRadians(target.getYaw());
+            
+            omegaShenron = - yawRad * kPRotate; // sign may need to be flipped depending on camera convention
+            // optionally clamp omega if your drivetrain expects limits elsewhere
         }
 
         drivetrain.setControl(
                 drive.withVelocityX(vx)
                      .withVelocityY(vy)
-                     .withRotationalRate(omega)
+                     .withRotationalRate(omegaShenron)
         );
     }
 
@@ -86,5 +92,4 @@ public class FaceAprilTagRelative extends Command {
     public boolean runsWhenDisabled() {
         return false;
     }
-        */
 }
