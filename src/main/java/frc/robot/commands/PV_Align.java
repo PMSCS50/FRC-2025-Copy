@@ -27,17 +27,20 @@ public class PV_Align extends Command {
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         
-        PhotonTrackedTarget target = result.getBestTarget();
-        int targetID = target.getFiducialId();
-        double poseAmbiguity = target.getPoseAmbiguity();
-        Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-        Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();
-        Pose3d robotPose;
-        Pose3d targetPose;
-        if (aprilTagLayout.getTagPose(target.getFiducialId()).isPresent()) {
-            robotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTagLayout.getTagPose(target.getFiducialId()).get(), alternateCameraToTarget);
-            targetPose = aprilTagLayout.getTagPose(target.getFiducialId()).get();
+        if (hasTargets) {
+            PhotonTrackedTarget target = result.getBestTarget();
+            int targetID = target.getFiducialId();
+            double poseAmbiguity = target.getPoseAmbiguity();
+            Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+            Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();
+            Pose3d robotPose;
+            Pose3d targetPose;
+            if (aprilTagLayout.getTagPose(target.getFiducialId()).isPresent()) {
+                robotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTagLayout.getTagPose(target.getFiducialId()).get(), Constants.VisionConstants.robotToCamera);
+                targetPose = aprilTagLayout.getTagPose(target.getFiducialId()).get();
+            }
+            //double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
         }
-        //double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
     }
 }
+
