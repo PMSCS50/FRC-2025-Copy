@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.HashMap;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -20,12 +21,12 @@ public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera camera;
     // CHECKSTYLE:OFF ConstantName
-    public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    public static final AprilTagFieldLayout aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
     
     private boolean hasTarget = false;
     
     // idk if this is private but i will just put it here
-    private PhotonTrackedTarget target;
+    PhotonTrackedTarget target;
     
     private double targetYaw = 0.0;
     private double targetPitch = 0.0;
@@ -35,9 +36,9 @@ public class VisionSubsystem extends SubsystemBase {
     private double poseAmbiguity = 0.0;
 
     // When camera is mounted, set these variables
-    private Transform3d cameraToRobot = null;
-    private double cameraHeightMeters = 0.0;
-    private double cameraPitchRadians = 0.0;
+    Transform3d cameraToRobot = null;
+    double cameraHeightMeters = 0.0;
+    double cameraPitchRadians = 0.0;
 
     // Pipeline Indexes. Dont know if we will use these but im putting them here just in case
     public static final int APRILTAG_PIPELINE = 0;
@@ -45,6 +46,10 @@ public class VisionSubsystem extends SubsystemBase {
     public static final int DRIVER_PIPELINE = 2;
     
     private int targetID = -1;
+
+    //gonna start trying to use this guy
+    public static photonEstimator = new PhotonPoseEstimator(aprilTagLayout, cameraToRobot);
+    
 
     public VisionSubsystem(String cameraName) {
         camera = new PhotonCamera(cameraName);
@@ -122,6 +127,29 @@ public class VisionSubsystem extends SubsystemBase {
         return targetID;
     }
 
+    // Checks how reliable the target info is based on poseAmbiguity
+    public boolean hasReliablePose(double maxAmbiguity) {
+        return hasTarget && poseAmbiguity >= 0 && poseAmbiguity < maxAmbiguity;
+    }
+
+    public Optional<Transform3d> getBestCameraToTarget() {
+        return hasTarget ? Optional.ofNullable(target.getBestCameraToTarget()) : Optional.empty();
+    }
+
+    /*
+    public Optional<Transform3d> getAlternateCameraToTarget() {
+        return hasTarget ? Optional.ofNullable(target.getAlternateCameraToTarget()) : Optional.empty();
+    }
+    */
+    
+    public Optional<Transform3d> getBestRobotToTarget() {
+        Transform3d cameraToTarget = target.getBestCameraToTarget();
+        if (cameraToTarget == null) {
+            return Optional.empty();
+        }
+        return hasTarget ? Optional.of(cameraToRobot.inverse().plus(cameraToTarget)) : Optional.empty()
+    }
+    
     public double getX() {
         return robotToTarget != null ? robotToTarget.getX() : 0.0;
     }
@@ -132,21 +160,8 @@ public class VisionSubsystem extends SubsystemBase {
         return robotToTarget != null ? robotToTarget.getZ() : 0.0;
     }
 
-    public double getRoT() {
+    public double getRot() {
         return robotToTarget != null ? robotToTarget.getRotation().getZ() : 0.0;
-    }
-
-    // Checks how reliable the target info is based on poseAmbiguity
-    public boolean hasReliablePose(double maxAmbiguity) {
-        return hasTarget && poseAmbiguity >= 0 && poseAmbiguity < maxAmbiguity;
-    }
-
-    public Optional<Transform3d> getBestCameraToTarget() {
-        return hasTarget ? Optional.ofNullable(target.getBestCameraToTarget()) : Optional.empty();
-    }
-    
-    public Optional<Transform3d> getAlternateCameraToTarget() {
-        return hasTarget ? Optional.ofNullable(target.getAlternateCameraToTarget()) : Optional.empty();
     }
     
 
@@ -156,6 +171,15 @@ public class VisionSubsystem extends SubsystemBase {
         }
         
         return aprilTagFieldLayout.getTagPose(targetID).map(tagPose -> PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), tagPose, cameraToRobot));
+    }
+    
+    //Fallback in case best target is ambiguous and we need to use a different one
+    public Optional<Pose3d> getFieldRelativePose(PhotonTrackedTarget target1) {
+        if (!hasTarget || cameraToRobot == null) {
+            return Optional.empty();
+        }
+        
+        return aprilTagFieldLayout.getTagPose(target1.getFiducialId()).map(tagPose -> PhotonUtils.estimateFieldToRobotAprilTag(target1.getBestCameraToTarget(), tagPose, cameraToRobot));
     }
 
     // setters for camera mount info
@@ -184,4 +208,5 @@ public class VisionSubsystem extends SubsystemBase {
     
     
 }
+
 
