@@ -51,7 +51,7 @@ public class VisionSubsystem extends SubsystemBase {
     private int targetID = -1;
 
     //gonna start trying to use this guy
-    public static photonEstimator = new PhotonPoseEstimator(aprilTagLayout, cameraToRobot.inverse());
+    public photonEstimator = new PhotonPoseEstimator(aprilTagLayout, cameraToRobot.inverse());
     
 
     public VisionSubsystem(String cameraName) {
@@ -246,6 +246,7 @@ public class VisionSubsystem extends SubsystemBase {
     
     
 }
+
 
 
 
