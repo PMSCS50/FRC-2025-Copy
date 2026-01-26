@@ -2,17 +2,19 @@ package frc.robot.commands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import java.util.function.DoubleSupplier;
+
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 
-public class FaceAprilTagRelative extends CommandBase {
+public class FaceAprilTagRelative extends Command {
 
     private final CommandSwerveDrivetrain drivetrain;
     private final VisionSubsystem vision;
@@ -94,5 +96,4 @@ public class FaceAprilTagRelative extends CommandBase {
     }
 }
 
-
-
+//hello
