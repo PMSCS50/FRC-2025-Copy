@@ -39,6 +39,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     // When camera is mounted, set these variables
     Transform3d cameraToRobot = null;
+    Trnasform3d robotToTarget = null;
     double cameraHeightMeters = 0.0;
     double cameraPitchRadians = 0.0;
 
@@ -245,6 +246,7 @@ public class VisionSubsystem extends SubsystemBase {
     
     
 }
+
 
 
 
