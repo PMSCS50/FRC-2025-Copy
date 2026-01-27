@@ -144,7 +144,7 @@ public class VisionSubsystem extends SubsystemBase {
     public List<TargetCorner> getTargetCorners() {
         return hasTarget ? targetCorners : List.of();
     }
-
+    /*
     public double getTargetYaw(int targetID) {
         return hasTarget ? targetYaw : 0.0;
     }
@@ -160,10 +160,10 @@ public class VisionSubsystem extends SubsystemBase {
     public double getTargetSkew(int targetID) {
         return hasTarget ? targetSkew : 0.0;
     }
-
+    */
     public List<TargetCorner> getTargetCorners(int targetID) {
         return hasTarget ? targetCorners : List.of();
-    }
+    }   
 
     public int getTargetID() {
         return targetID;
@@ -334,7 +334,7 @@ public class VisionSubsystem extends SubsystemBase {
         return visionEst;
     }
     */
-   //suhas was here
+
     
 }
 
