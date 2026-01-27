@@ -84,7 +84,7 @@ public class RobotContainer {
         */
 
         //NamedCommands.registerCommand("alignToReef", new PV_Align(cam1));
-        //NamedCommands.registerCommand("faceAprilTag", new FaceAprilTagRelative(drivetrain, vision, xInput, yInput));
+        NamedCommands.registerCommand("faceAprilTag", new FaceAprilTagRelative(drivetrain, vision, xInput, yInput));
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
