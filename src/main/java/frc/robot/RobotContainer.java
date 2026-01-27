@@ -71,6 +71,8 @@ public class RobotContainer {
     public RobotContainer() {
         CameraServer.startAutomaticCapture();
         // register commands to pathplanner
+        
+        /*
         NamedCommands.registerCommand("elevatorL2", new ElevatorPIDAutoL2(elevator, ElevatorConstants.l2));
         NamedCommands.registerCommand("elevatorL4Actual", new ElevatorPIDAuto(elevator, ElevatorConstants.l4));
         NamedCommands.registerCommand("elevatorL1", new ElevatorPIDAutoL1(elevator, ElevatorConstants.l1-0.5));
@@ -79,7 +81,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("scoreOutFast", new CoralAutoScoreFast(coralroller));
         NamedCommands.registerCommand("preRoller", new CoralAutoPreroller(coralroller));
         NamedCommands.registerCommand("stopCoralRollers", new CoralAutoStop(coralroller));
-        
+        */
+
         //NamedCommands.registerCommand("alignToReef", new PV_Align(cam1));
         //NamedCommands.registerCommand("faceAprilTag", new FaceAprilTagRelative(drivetrain, vision, xInput, yInput));
 
