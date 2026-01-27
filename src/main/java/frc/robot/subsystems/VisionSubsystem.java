@@ -84,7 +84,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     // Pipeline setters and getters, not sure if we will actually use these.
     public void setPipeline(int index) {
-        caw4mera.setPipelineIndex(index);
+        camera.setPipelineIndex(index);
     }
     
     public int getPipeline() {
