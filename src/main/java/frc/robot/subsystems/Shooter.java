@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
         
         double wheelRPM = (velocity * 60.0) / (2.0 * Math.PI * wheelRadius);
 
-        double maxWheelRPM = 5676.0 / ShooterConstants.GEAR_RATIO;
+        double maxWheelRPM = 5676.0;
 
         double percentOutput = MathUtil.clamp(wheelRPM / maxWheelRPM, 0.0, 1.0);
 
