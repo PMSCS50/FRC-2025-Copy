@@ -73,7 +73,7 @@ public class AimToBucket extends Command {
                 double pitch = target.getPitch();// 2. get pitch for shooter to turn
     
                 // 3. Control Loop
-                double rotSpeed = rotController.calculate(pitch);
+                double rotSpeed = rotController.calculate(yaw);
                 drivetrain.setControl(drive.withRotationalRate(rotSpeed));
     
                 if (rotController.atSetpoint()) {
