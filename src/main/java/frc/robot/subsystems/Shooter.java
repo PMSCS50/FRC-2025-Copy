@@ -17,9 +17,8 @@ import java.lang.Math;
 
 /*
 TODO:
-Initialize other motorrCanIDs and hootEncoderDIO, and hoodEncoderOffsetDeg
+Initialize other motorrCanIDs and hootEncoderDIO.
 Also configure other motors
-Get the motor to actually move based on angle.
 
 
 */ 
@@ -32,15 +31,10 @@ public class Shooter extends SubsystemBase {
     final SparkMax shooterMotor = new SparkMax(ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
     final SparkMax kickerMotor = new SparkMax(ShooterConstants.kickbackMotorCanId, MotorType.kBrushless);
     final SparkMax hoodMotor = new SparkMax(ShooterConstants.hoodedMotorCanId, MotorType.kBrushless);
-    
-    
-    private final DutyCycleEncoder hoodEncoder = new DutyCycleEncoder(ShooterConstants.hoodEncoderDIO);
-    //add more motors later
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;
-    public double shootingAngle = 55.0; //Actual ideal shooting angle
-    public double shooterAngle = 20.0; //shooter current angle
+    public double shooterAngle = 70.0; //shooter angle
     private double shooterHeight = 0.508; //How high the shooter is from the ground (meters)
 
     public Shooter() {
@@ -55,26 +49,11 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
 
-    }
-
-    //This should return the angle of the shooter in Degrees. 
-    private double getHoodAngleDeg() {
-        return hoodEncoder.getAbsolutePosition() * 360.0 + ShooterConstants.hoodEncoderOffsetDeg;
-    }
-
-    private double bestAngleFromDistance(double x, double y) {
-        double minAngle = Math.toDegrees(Math.atan(2 * yDiff / x)); //safe, but not best angle.
-        double phi_ideal = Math.atan(x/( Math.sqrt(x*x + (shooterHeight - y)*(shooterHeight - y)) + shooterHeight - y));
-        //phi_ideal is angle that passes through (x,y) with the least velocity
-        double phi = Math.max(minAngle, phi_ideal);
-        phi = Math.min(Math.toRadians(55.0),Math.max(phi,Math.toRadians(20.0)));
-        return Math.toDegrees(phi);
-    }
-    
+    }    
     
     //Will calculate velocity for trajectory to hit (x,y); 
     private double velocityFromDistance(double x, double y) {
-        double phi = Math.toRadians(shootingAngle);
+        double phi = Math.toRadians(shooterAngle);
         double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x*tan(phi) + shooterHeight - y)));       
         return v;
     }
@@ -89,9 +68,6 @@ public class Shooter extends SubsystemBase {
         shooterMotor.set(velocity);
     }
 
-    public void setBestAngle(double newAngle) {
-        shootingAngle = newAngle;
-    }
 
     /** Stop the shooter. */
     public void stop() {

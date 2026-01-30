@@ -67,7 +67,7 @@ public class AimToBucket extends Command {
     
                 // 1. Get Distance (Direct 3D vector, ignores height constants)
                 var translation = target.getBestCameraToTarget().getTranslation();
-                double dx = translation.getX(); //forward distance
+                double dx = translation.getX() + 31.027231 ; //forward distance to hub (dist to apriltag + dist to hub);
                 double dy = translation.getZ(); //vertical distance 
                 
                 //double distance = translation.getNorm(); 
@@ -79,7 +79,6 @@ public class AimToBucket extends Command {
                 drivetrain.setControl(drive.withRotationalRate(rotSpeed));
     
                 if (rotController.atSetpoint()) {
-                    shooter.setBestAngle(shooter.bestAngleFromDistance(dx,dy));
                     shooter.setVelocityFromDistance(dx,dy);
                 } else {
                     shooter.stop();
@@ -89,7 +88,7 @@ public class AimToBucket extends Command {
         } else {
             drivetrain.setControl(
                 drive.withRotationalRate(0)
-            );
+            ); 
             shooter.stop();
         }
 
