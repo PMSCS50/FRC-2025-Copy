@@ -11,8 +11,18 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import java.lang.Math;
+
+/*
+TODO:
+Initialize other motorrCanIDs and hootEncoderDIO, and hoodEncoderOffsetDeg
+Also configure other motors
+Get the motor to actually move based on angle.
+
+
+*/ 
 
 public class Shooter extends SubsystemBase {
     // Configuration for the shooter motor
@@ -22,6 +32,9 @@ public class Shooter extends SubsystemBase {
     final SparkMax shooterMotor = new SparkMax(ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
     final SparkMax kickerMotor = new SparkMax(ShooterConstants.kickbackMotorCanId, MotorType.kBrushless);
     final SparkMax hoodMotor = new SparkMax(ShooterConstants.hoodedMotorCanId, MotorType.kBrushless);
+    
+    
+    private final DutyCycleEncoder hoodEncoder = new DutyCycleEncoder(ShooterConstants.hoodEncoderDIO);
     //add more motors later
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
@@ -44,9 +57,9 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    //This should return the angle of the shooter in Degrees
-    public DutyCycleEncoder getHoodAngle() {
-        
+    //This should return the angle of the shooter in Degrees. 
+    private double getHoodAngleDeg() {
+        return hoodEncoder.getAbsolutePosition() * 360.0 + ShooterConstants.hoodEncoderOffsetDeg;
     }
 
     private double bestAngleFromDistance(double x, double y) {
@@ -55,7 +68,7 @@ public class Shooter extends SubsystemBase {
         //phi_ideal is angle that passes through (x,y) with the least velocity
         double phi = Math.max(minAngle, phi_ideal);
         phi = Math.min(Math.toRadians(55.0),Math.max(phi,Math.toRadians(20.0)));
-        return phi;
+        return Math.toDegrees(phi);
     }
     
     
@@ -78,10 +91,6 @@ public class Shooter extends SubsystemBase {
 
     public void setBestAngle(double newAngle) {
         shootingAngle = newAngle;
-    }
-
-    public void setBestAngleInRadians(double newAngle) {
-        shootingAngle = Math.toDegrees(newAngle);
     }
 
     /** Stop the shooter. */
