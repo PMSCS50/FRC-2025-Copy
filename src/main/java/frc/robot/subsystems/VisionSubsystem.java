@@ -76,7 +76,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     public VisionSubsystem(String cameraName) {
         camera = new PhotonCamera(cameraName);
-       
+        this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagLayout,poseStrategy,cameraToRobot);
+        this.estConsumer = estConsumer;
     }
 
     // Optional overload to supply camera-to-robot transform at construction
