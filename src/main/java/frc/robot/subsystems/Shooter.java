@@ -17,13 +17,15 @@ public class Shooter extends SubsystemBase {
     private final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
 
 
-    private final SparkMax shooterMotor = new SparkMax(ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
+    final SparkMax shooterMotor = new SparkMax(ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
+    final SparkMax kickerMotor = new SparkMax(ShooterConstants.kickbackMotorCanId, MotorType.kBrushless);
+    final SparkMax hoodMotor = new SparkMax(ShooterConstants.hoodedMotorCanId, MotorType.neo550);
     //add more motors later
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;
     public double shooterAngle = 20.0; //angle
-    private double shooterHeight = 0.1; //How high is the shooter from the ground?
+    private double shooterHeight = 0.508; //How high is the shooter from the ground?
 
     public Shooter() {
         shooterMotorConfig
