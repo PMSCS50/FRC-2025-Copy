@@ -22,7 +22,8 @@ public class Shooter extends SubsystemBase {
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;
-    private double shooterAngle = 20.0; //angle
+    public double shooterAngle = 20.0; //angle
+    private double shooterHeight = 0.1; //How high is the shooter from the ground?
 
     public Shooter() {
         shooterMotorConfig
@@ -37,10 +38,11 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
 
     }
-
-    private double velocityFromDistance(double meters) {
-        double v = Math.sqrt(9.807 * meters / (sin(2*shooterAngle)));       
-        return v; // placeholder
+    //Will calculate velocity for trajectory to hit (x,y); 
+    private double velocityFromDistance(double x, double y) {
+        double phi = shooterAngle;
+        double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x*tan(phi) + shooterHeight - y)));       
+        return v;
     }
 
     public void setVelocityFromDistance(double meters) {
