@@ -54,15 +54,16 @@ public class Shooter extends SubsystemBase {
 
     }    
     
-    //Will calculate velocity for trajectory to hit (x,y); 
-    private double velocityFromDistance(double x, double y) {
+    //Will calculate velocity for trajectory to get in shooter given distance. Y value is fixed); 
+    private double velocityFromDistance(double x) {
+        double y = 1.8288;
         double phi = Math.toRadians(shooterAngle);
         double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x*tan(phi) + shooterHeight - y)));       
         return v;
     }
 
-    public void setVelocityFromDistance(double x, double y) {
-        this.setVelocity(velocityFromDistance(x,y));
+    public void setVelocityFromDistance(double x) {
+        this.setVelocity(velocityFromDistance(x));
     }
     
 
