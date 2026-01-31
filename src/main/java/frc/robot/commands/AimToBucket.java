@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
-
+import java.lang.Math;
 
 
 public class AimToBucket extends Command {
@@ -67,10 +67,10 @@ public class AimToBucket extends Command {
     
                 // 1. Get Distance (Direct 3D vector, ignores height constants)
                 var translation = target.getBestCameraToTarget().getTranslation();
-                double dx = translation.getX() + 28.908282 ; //forward distance to hub (dist to apriltag + dist to hub);
+                double dx = translation.getX() + 0.7342703628; //forward distance to hub (RobotToApriltagX + AprilTagToHubX)
                 double dy = translation.getY(); //horizontal distance to the hub
                 
-                double distance = dx*dx + dy*dy; 
+                double distance = Math.hypot(dx,dy); 
 
                 double yaw = target.getYaw(); //2. get yaw for tobot to turn
 
