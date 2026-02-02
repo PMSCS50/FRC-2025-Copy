@@ -29,9 +29,9 @@ public class Shooter extends SubsystemBase {
     private final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
 
 
-    final SparkMax shooterMotor = new SparkMax(ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
-    final SparkMax kickerMotor = new SparkMax(ShooterConstants.kickerMotorCanId, MotorType.kBrushless);
-    final SparkMax hoodMotor = new SparkMax(ShooterConstants.hoodedMotorCanId, MotorType.kBrushless);
+    final SparkMax shooterMotor = new SparkMax(Constants.ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
+    final SparkMax kickerMotor = new SparkMax(Constants.ShooterConstants.kickerMotorCanId, MotorType.kBrushless);
+    final SparkMax hoodMotor = new SparkMax(Constants.ShooterConstants.hoodedMotorCanId, MotorType.kBrushless);
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;

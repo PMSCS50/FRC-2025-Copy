@@ -48,10 +48,10 @@ public final class Constants {
       }
 
       public static final class ShooterConstants {
-        public static final int chuteMotor1CanId = 51;
-        public static final int chuteMotor2CanId = 52;
+        public static final int shooterMotorCanId = 0;
+        public static final int kickerMotorCanId = 0;
+        public static final int hoodedMotorCanId = 0;
 
-        public static final int coralRoller1CanId = 21;
         public static final int coralRoller2CanId = 22;
     
         public static final double chuteSpeed = .7;
@@ -66,11 +66,14 @@ public final class Constants {
         public static final double climbMax = 15.0;
       }
       public static final class VisionConstants{
-        public static final Pose3d robotToCamera = new Pose3d(0.0,0.0,0.0, new Rotation3d(0.0,0.0,0.0));
+        public static final Pose3d cameraToRobot = new Pose3d(0.0,0.0,0.0, new Rotation3d(0.0,0.0,0.0));
         public static final double distanceToTag = 1;
         public static final AprilTagFieldLayout aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
       }
+
+      public static final double BUCKET_AIM_TOLERANCE_DEG = 0.1;
+      public static final double HUB_TAG_ID = 18;
 
       public static final double X_REEF_ALIGNMENT_P = 2;
       public static final double Y_REEF_ALIGNMENT_P = 3;
