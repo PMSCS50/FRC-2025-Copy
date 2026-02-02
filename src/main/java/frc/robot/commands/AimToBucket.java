@@ -67,7 +67,9 @@ public class AimToBucket extends Command {
     
                 // 1. Get Distance (Direct 3D vector, ignores height constants)
                 var translation = target.getBestCameraToTarget().getTranslation();
-                double dx = translation.getX() + 0.7342703628; //forward distance to hub (RobotToApriltagX + AprilTagToHubX)
+                double aprilTagToHub = 0.7342703628; // May have to change this value
+                
+                double dx = translation.getX() + aprilTagToHub; //forward distance to hub (RobotToApriltagX + AprilTagToHubX)
                 double dy = translation.getY(); //horizontal distance to the hub
                 
                 double distance = Math.hypot(dx,dy); 

@@ -119,7 +119,7 @@ public class VisionSubsystem extends SubsystemBase {
             return;
         }
         
-        targets  = result.getTargets()
+        targets  = result.getTargets();
         target = result.getBestTarget();
         
         hasTarget = true;

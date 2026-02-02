@@ -18,7 +18,7 @@ import java.lang.Math;
 
 /*
 TODO:
-Initialize other motorrCanIDs and configure the kickerMotor and hoodMotor
+Initialize other motorrCanIDs and configure the kickerMotor
 Initialize wheelRadius and find the max speed of a SparkMax with the FUEL inside.
 Finish convertToRPM();
 
@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
 
     final SparkMax shooterMotor = new SparkMax(Constants.ShooterConstants.shooterMotorCanId, MotorType.kBrushless);
     final SparkMax kickerMotor = new SparkMax(Constants.ShooterConstants.kickerMotorCanId, MotorType.kBrushless);
-    final SparkMax hoodMotor = new SparkMax(Constants.ShooterConstants.hoodedMotorCanId, MotorType.kBrushless);
+    
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;
@@ -39,6 +39,13 @@ public class Shooter extends SubsystemBase {
     private double shooterHeight = 0.508; //How high the shooter is from the ground (meters)
 
     public Shooter() {
+        shooterMotorConfig
+            // .inverted(true)
+            .idleMode(IdleMode.kCoast)
+            .smartCurrentLimit(20);
+
+        shooterMotor.configure(shooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
         shooterMotorConfig
             // .inverted(true)
             .idleMode(IdleMode.kCoast)
@@ -54,7 +61,7 @@ public class Shooter extends SubsystemBase {
     
     //Calculates velocity for trajectory to get in shooter given distance. Y value is fixed); 
     private double velocityFromDistance(double x) {
-        double y = 1.49098; // y distance from shooter to hub. Fixed height
+        double y = 1.8288 - shooterHeight; // y distance from shooter to hub. May have to change later
         double phi = Math.toRadians(shooterAngle);
         double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x*tan(phi) + shooterHeight - y)));       
         return v;
@@ -73,9 +80,9 @@ public class Shooter extends SubsystemBase {
     
     //We need to finish this
     private double convertToRPM(double velocity) {
-        //Placeholder (2 inches). Fill this in with real dimensions
+
         double wheelRadius = 0.0508;
-        double k = 1.1; //this constant should try to negate energy loss or smth 
+        double k = 1.1; //extra constant to try and account for energy loss
         
         double wheelRPM = k * (velocity * 60.0) / (2.0 * Math.PI * wheelRadius);
         //This is FREE maxwheelRPM. Replace with reduced one
@@ -103,43 +110,3 @@ public class Shooter extends SubsystemBase {
 }
 
 
-/*
-public class Shooter extends SubsystemBase {
-    //1 = left (facing forwards), 2 = right (facing forwards)
-    private SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
-
-    private SparkMax shooterMotor = new SparkMax(CoralRollersConstants.coralRoller1CanId, MotorType.kBrushless);
-    // private SparkMax shooterMotor2 = new SparkMax(CoralRollersConstants.coralRoller2CanId, MotorType.kBrushless);
-
-    public double velocity = 0.0;
-
-    public CoralRollers() {
-        shooterMotorConfig
-            //.inverted(true)
-            .idleMode(IdleMode.kCoast)
-            .smartCurrentLimit(20);
-
-        shooterMotor.configure(shooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        // shooterMotor.configure(shooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    }
-
-    @Override
-    public void periodic() {
-
-    }
-
-    public void setVelocity(double newVelocity) {
-        velocity = newVelocity;{
-        shooterMotor.set(velocity);
-    }
-
-    public void stop(){
-        velocity = 0.0
-        shooterMotor.set(velocity);
-    }
-
-    public boolean isShooting() {
-        return velocity == 0.0;
-    }
-}
-*/
