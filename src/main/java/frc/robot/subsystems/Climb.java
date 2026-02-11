@@ -35,10 +35,7 @@ public class Climb extends SubsystemBase {
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(40);
 
-        //ChuteMotor1.configure(coralRollerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        //ChuteMotor2.configure(coralRollerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         climbMotor.configure(climbMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        //CoralRoller2.configure(coralRollerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override

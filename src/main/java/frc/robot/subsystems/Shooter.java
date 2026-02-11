@@ -103,7 +103,8 @@ public class Shooter extends SubsystemBase {
         double power = torque * (rpm * 2*Math.PI/60)/100;
         double efficiency = power / (voltage * current);
 
-        power /= efficiency; 
+        power /= efficiency;
+        power /= 1108; //returns percentage 
         return power;
     }
 
