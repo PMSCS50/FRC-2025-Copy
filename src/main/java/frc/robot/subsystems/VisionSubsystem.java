@@ -25,6 +25,7 @@ import edu.wpi.first.math.numbers.N3;
 public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera camera;
+    private PhotonTrackedTarget target;
 
     public final AprilTagFieldLayout aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
@@ -60,7 +61,7 @@ public class VisionSubsystem extends SubsystemBase {
             return;
         }
 
-        PhotonTrackedTarget target = result.getBestTarget();
+        target = result.getBestTarget();
 
         hasTarget = true;
         targetId = target.getFiducialId();
@@ -77,6 +78,18 @@ public class VisionSubsystem extends SubsystemBase {
 
     public boolean hasTarget(int desiredId) {
         return hasTarget && targetId == desiredId && tagToRobot != null;
+    }
+
+    public int getTargetId() {
+        return targetId;
+    }
+
+    public Transform3d getRobotToTarget() {
+        Transform3d cameraToTag = target.getBestCameraToTarget();
+        if (cameraToTag == null) {
+            return Transform3d.kZero;
+        }
+        return ROBOT_TO_CAMERA.plus(target.getBestCameraToTarget());
     }
 
     // Forward/back relative to TAG (meters)
