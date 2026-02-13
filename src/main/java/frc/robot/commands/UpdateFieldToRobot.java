@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 
 import java.util.Optional;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -38,6 +39,12 @@ public class UpdateFieldToRobot extends Command {
         fieldToRobot.ifPresent(
             erp -> {
                 Matrix<N3, N1> visionStdDevs = vision.getEstimationStdDevs();
+
+                SmartDashboard.putNumber("Estimated FieldToRobot", fieldToRobot)
+                SmartDashboard.putNumber("VisionStdDevX", xStd);
+                SmartDashboard.putNumber("VisionStdDevY", yStd);
+                SmartDashboard.putNumber("VisionStdDevTheta", thetaStd);
+
                 drivetrain.addVisionMeasurement(erp.estimatedPose.toPose2d(), erp.timestampSeconds, visionStdDevs);
             }
         );

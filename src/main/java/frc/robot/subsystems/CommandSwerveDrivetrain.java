@@ -262,6 +262,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     */
 
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds, Matrix<N3, N1> visionStdDevs) {
+        double xStd = visionStdDevs.get(0, 0);
+        double yStd = visionStdDevs.get(1, 0);
+        double thetaStd = visionStdDevs.get(2, 0);
+
+        //Rejects uncertain measurements
+        if (xStd > 3.0 || yStd > 3.0 || thetaStd > 1.5) {
+            return;
+        }
+
+        //soft clamp
+        xStd = Math.max(xStd, 0.05);
+        yStd = Math.max(yStd, 0.05);
+        thetaStd = Math.max(thetaStd, 0.02);
+
+        Matrix<N3, N1> tunedStdDevs = VecBuilder.fill(xStd, yStd, thetaStd);
+
         super.addVisionMeasurement(pose, timestampSeconds, visionStdDevs);
     } 
 
