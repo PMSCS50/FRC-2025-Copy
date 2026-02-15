@@ -258,7 +258,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     /** 
-     * Uses builtin poseestimator to update current fieldToRobot. This may have issues.
+     * Uses builtin TunerSwerveDriveTrain poseestimator to update current fieldToRobot.
+     * Basically PhotonPoseEstimator gives vision estimation for this to give final position.
+     * We can get the fieldToRobot pose by calling drivetrain.getPose();
     */
 
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds, Matrix<N3, N1> visionStdDevs) {
@@ -281,7 +283,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         super.addVisionMeasurement(pose, timestampSeconds, tunedStdDevs);
     } 
 
-    //get robot pose just in case
+    //get robot pose
     public Pose2d getPose() {
         return getState().Pose;
     }

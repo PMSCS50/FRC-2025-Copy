@@ -42,6 +42,7 @@ public class UpdateFieldToRobot extends Command {
                 Matrix<N3, N1> visionStdDevs = vision.getEstimationStdDevs();
 
                 //this method is defined in line 162 of CommandSwerveDriveTrain.java
+                //Once updated, we can get the fieldToRobot pose from driveTrain.getPose()
                 drivetrain.addVisionMeasurement(erp.estimatedPose.toPose2d(), erp.timestampSeconds, visionStdDevs);
             }
         );
@@ -55,7 +56,7 @@ public class UpdateFieldToRobot extends Command {
         //Spirit Bomb completed
         //Thank you everyone!
         //This is it! HAAAAAAAAAAAA!!!!!!!
-        //Pease Goku I need this! Your Spirit Bomb is too strong! I'm in no state to dodge it I need you to help me out!
+        //Please Goku I need this! Your Spirit Bomb is too strong! I'm in no state to dodge it I need you to help me out!
         //Kakarot Im watching your final blow why you trying not to laugh bruh thats disrespecful as shit bruh
     }
 
