@@ -15,21 +15,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
+//import edu.wpi.first.wpilibj.DigitalOutput;
 
 public class Climb extends SubsystemBase {
     //1 = left (facing forwards), 2 = right (facing forwards)
-    
-    //private SparkMax CoralRoller2 = new SparkMax(CoralRollersConstants.coralRoller1CanId, MotorType.kBrushless);
+
+    private final SparkMaxConfig climbMotorConfig = new SparkMaxConfig();
+    private final SparkMax climbMotor = new SparkMax(ClimbConstants.climbMotorCanID, MotorType.kBrushless);
     private RelativeEncoder climbEncoder = climbMotor.getEncoder(); 
+
     private final DigitalInput limitSwitchHook = new DigitalInput(1);
     private final DigitalInput limitSwitchTop = new DigitalInput(2);
     private final DigitalInput limitSwitchBottom = new DigitalInput(3);
 
+    /*
     private final DigitalOutput LEDHook = new DigitalOutput(4);
     private final DigitalOutput LEDTop = new DigitalOutput(5);
     private final DigitalOutput LEDBottom = new DigitalOutput(6);
-    
+    */
 
     private double ClimbStatus;
 
@@ -49,9 +52,11 @@ public class Climb extends SubsystemBase {
         SmartDashboard.putBoolean("Climb limit switch BOTTOM", limitSwitchBottom.get());
         SmartDashboard.putNumber("Climb position", getDistance());
 
+        /*
         LEDHook.set(limitSwitchHook.get());
         LEDTop.set(limitSwitchTop.get());
         LEDBottom.set(limitSwitchBottom.get());
+        */
     }
 
     public void pull(){
