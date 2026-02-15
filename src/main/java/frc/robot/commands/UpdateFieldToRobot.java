@@ -29,7 +29,8 @@ public class UpdateFieldToRobot extends Command {
 
     @Override
     public void initialize() {
-        
+        //You ready Vegeta? After all, we're Saiyans, we were born to fight!
+        //Shut the fuck up Kakarot, save it until we're done!
     }
 
     @Override
@@ -40,11 +41,7 @@ public class UpdateFieldToRobot extends Command {
             erp -> {
                 Matrix<N3, N1> visionStdDevs = vision.getEstimationStdDevs();
 
-                //SmartDashboard.putNumber("Estimated FieldToRobot", fieldToRobot)
-                //SmartDashboard.putNumber("VisionStdDevX", xStd);
-                //SmartDashboard.putNumber("VisionStdDevY", yStd);
-                //SmartDashboard.putNumber("VisionStdDevTheta", thetaStd);
-
+                //this method is defined in line 162 of CommandSwerveDriveTrain.java
                 drivetrain.addVisionMeasurement(erp.estimatedPose.toPose2d(), erp.timestampSeconds, visionStdDevs);
             }
         );
@@ -53,7 +50,13 @@ public class UpdateFieldToRobot extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
+        //People of Earth, Lend me your energy!
+        //energy lending noises or something
+        //Spirit Bomb completed
+        //Thank you everyone!
+        //This is it! HAAAAAAAAAAAA!!!!!!!
+        //Pease Goku I need this! Your Spirit Bomb is too strong! I'm in no state to dodge it I need you to help me out!
+        //Kakarot Im watching your final blow why you trying not to laugh bruh thats disrespecful as shit bruh
     }
 
     @Override

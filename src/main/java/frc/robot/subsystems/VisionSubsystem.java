@@ -20,7 +20,6 @@ import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-//I cant see errors, so if any of these imports are unused, delete them
 
 public class VisionSubsystem extends SubsystemBase {
 
@@ -30,7 +29,6 @@ public class VisionSubsystem extends SubsystemBase {
     public static final AprilTagFieldLayout aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
     private final PhotonPoseEstimator photonPoseEstimator;
-    //private PoseStrategy poseStrategy = PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR;
 
     // Robot → Camera
     private static final Transform3d ROBOT_TO_CAMERA =
@@ -50,8 +48,13 @@ public class VisionSubsystem extends SubsystemBase {
         this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagLayout, ROBOT_TO_CAMERA);
     }
 
-    public PhotonTrackedTarget getLatestResult() {
+    //These two methods are only for other commands and classes. We should not be using them in here
+    public PhotonPipelineResult getLatestResult() {
         return camera.getLatestResult();
+    }
+
+    public PhotonTrackedTarget getBestTarget() {
+        return getLatestResult().getBestTarget();
     }
 
     @Override
@@ -121,12 +124,6 @@ public class VisionSubsystem extends SubsystemBase {
     //Ambiguity of Photon poseEstimation
     private void updateEstimationStdDevs(Optional<EstimatedRobotPose> estimatedPose,
     List<PhotonTrackedTarget> targets) {
-
-        // If we don't have a pose estimate, fall back to default noise
-        if (estimatedPose.isEmpty()) {
-            visionStdDevs = VecBuilder.fill(0.9, 0.9, Math.toRadians(10));
-            return;
-        }
 
         int numTags = targets.size();
 

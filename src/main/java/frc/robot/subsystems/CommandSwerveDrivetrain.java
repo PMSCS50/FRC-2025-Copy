@@ -258,7 +258,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     /** 
-     * Uses phoenix6 builtin poseestimator to update current fieldToRobot.
+     * Uses builtin poseestimator to update current fieldToRobot. This may have issues.
     */
 
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds, Matrix<N3, N1> visionStdDevs) {
@@ -266,7 +266,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double yStd = visionStdDevs.get(1, 0);
         double thetaStd = visionStdDevs.get(2, 0);
 
-        //Rejects uncertain measurements
+        //Rejects uncertain measurements. We can decide these values later
         if (xStd > 3.0 || yStd > 3.0 || thetaStd > 1.5) {
             return;
         }
@@ -278,7 +278,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         Matrix<N3, N1> tunedStdDevs = VecBuilder.fill(xStd, yStd, thetaStd);
 
-        super.addVisionMeasurement(pose, timestampSeconds, visionStdDevs);
+        super.addVisionMeasurement(pose, timestampSeconds, tunedStdDevs);
     } 
 
     //get robot pose just in case

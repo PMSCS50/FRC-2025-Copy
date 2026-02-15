@@ -63,7 +63,7 @@ public class RobotContainer {
     private final AlgaeRollers algaeroller = new AlgaeRollers();
     private final CoralRollers coralroller = new CoralRollers();
     private final Climb climb = new Climb();
-    private final VisionSubsystem vision = new VisionSubsystem("meow");
+    private final VisionSubsystem vision = new VisionSubsystem("Solid-State-Scouter");
 
     /* Path follower */
     private SendableChooser<Command> autoChooser;
@@ -83,7 +83,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("stopCoralRollers", new CoralAutoStop(coralroller));
         */
 
-        NamedCommands.registerCommand("alignToReef", new PV_Align(drivetrain, vision));
+        //the targetID was missing in PV_Align constructer so I just put something there.
+        //If you need a specific targetID let me know 
+        NamedCommands.registerCommand("alignToTag", new PV_Align(drivetrain, vision, vision.getBestTarget()));
         NamedCommands.registerCommand("faceAprilTag", new FaceAprilTagRelative(drivetrain, vision, xInput, yInput));
 
         //Constantly updates field to robot
