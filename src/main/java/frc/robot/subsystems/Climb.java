@@ -28,12 +28,6 @@ public class Climb extends SubsystemBase {
     private final DigitalInput limitSwitchTop = new DigitalInput(2);
     private final DigitalInput limitSwitchBottom = new DigitalInput(3);
 
-    /*
-    private final DigitalOutput LEDHook = new DigitalOutput(4);
-    private final DigitalOutput LEDTop = new DigitalOutput(5);
-    private final DigitalOutput LEDBottom = new DigitalOutput(6);
-    */
-
     private double ClimbStatus;
 
     public Climb() {
@@ -52,11 +46,7 @@ public class Climb extends SubsystemBase {
         SmartDashboard.putBoolean("Climb limit switch BOTTOM", limitSwitchBottom.get());
         SmartDashboard.putNumber("Climb position", getDistance());
 
-        /*
-        LEDHook.set(limitSwitchHook.get());
-        LEDTop.set(limitSwitchTop.get());
-        LEDBottom.set(limitSwitchBottom.get());
-        */
+    
     }
 
     public void pull(){
