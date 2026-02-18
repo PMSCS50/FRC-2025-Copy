@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase {
 
     // Current commanded output (interpreted as percent output by SparkMax.set)
     private double velocity = 0.0;
-    public double shooterAngle = 70.0; //shooter angle
+    private double shooterAngle = 70.0; //shooter angle
     private double shooterHeight = 0.508; //How high the shooter is from the ground (meters)
 
     public Shooter() {
@@ -66,7 +66,7 @@ public class Shooter extends SubsystemBase {
         shooterMotorConfig.CurrentLimits.SupplyCurrentLimit = 20;
         shooterMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-        shooterMotorconfig.Slot0.kP = 1.3; // Just a guess, do later
+        shooterMotorconfig.Slot0.kP = 0.000001; // Just a guess, do later
         shooterMotorconfig.Slot0.kI = 0;
         shooterMotorconfig.Slot0.kD = 0;
     }
