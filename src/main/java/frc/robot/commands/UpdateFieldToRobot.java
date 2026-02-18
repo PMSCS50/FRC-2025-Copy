@@ -29,7 +29,7 @@ public class UpdateFieldToRobot extends Command {
 
     @Override
     public void initialize() {
-        //You ready Vegeta? After all, we're Saiyans, we were born to fight!
+        //We can do this. After all, we're Saiyans, we were born to fight!
         //Shut the fuck up Kakarot, save it until we're done!
     }
 
@@ -51,9 +51,9 @@ public class UpdateFieldToRobot extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        //People of Earth, Lend me your energy!
-        //energy lending noises or something
-        //Spirit Bomb completed
+        //People of the universe, LEND ME YOUR ENERGY!
+        //*energy lending noises or something*
+        //*Spirit Bomb completed*
         //Thank you everyone!
         //This is it! HAAAAAAAAAAAA!!!!!!!
         //Please Goku I need this! Your Spirit Bomb is too strong! I'm in no state to dodge it I need you to help me out!
