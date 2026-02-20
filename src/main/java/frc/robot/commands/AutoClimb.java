@@ -13,7 +13,8 @@ public class ClimbPull extends Command {
 
     @Override
     public void initialize() {
-        climb.spinRollers();
+        //climb.spinRollers();
+        return;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class ClimbPull extends Command {
     @Override
     public void end(boolean interrupted) {
         climb.stopClimb();
-        climb.stopRollers();
+        //climb.stopRollers();
     }
 
     
