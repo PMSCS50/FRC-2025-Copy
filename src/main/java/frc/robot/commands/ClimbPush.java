@@ -19,12 +19,12 @@ public class ClimbPull extends Command {
 
     @Override
     public void execute() {
-        climb.pull(); // winch logic already checks limit switch
+        climb.push(); // winch logic already checks limit switch
     }
 
     @Override
     public boolean isFinished() {
-        return !climb.getLimit(); // ends when switch is released
+        return !climb.getBottomLimit(); // ends when switch is released
     }
 
     @Override
