@@ -36,7 +36,6 @@ public class UpdateFieldToRobot extends Command {
     @Override
     public void execute() {
         Optional<EstimatedRobotPose> fieldToRobot = vision.estimateMultiTagPose();
-
         fieldToRobot.ifPresent(
             erp -> {
                 Matrix<N3, N1> visionStdDevs = vision.getEstimationStdDevs();

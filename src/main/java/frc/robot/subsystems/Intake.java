@@ -27,13 +27,11 @@ public class Intake extends SubsystemBase {
     
     public Intake() {
         viagraMotorConfig
-            .inverted(true)
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(40);
 
         viagraMotor.configure(viagraMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         intakeMotorConfig
-            .inverted(true)
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(40);
 
@@ -56,7 +54,7 @@ public class Intake extends SubsystemBase {
     public void initIntake() {
         if (!initializing) return;
 
-        double viagraPower = 0.2     
+        double viagraPower = 0.1     
         double ampThreshold = 30;  
         double timeoutSeconds = 2.0;
 
@@ -77,7 +75,7 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    //all power values are placeholders
+    //power values are placeholders
     public void startIntake() {
         intakeMotor.set(0.4); 
     }
