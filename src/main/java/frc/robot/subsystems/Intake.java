@@ -21,9 +21,6 @@ public class Intake extends SubsystemBase {
     private final SparkMaxConfig intakeMotorConfig = new SparkMaxConfig();
     private final SparkMax intakeMotor = new SparkMax(IntakeConstants.intakeMotorCanID, MotorType.kBrushless);
 
-    private final SparkMaxConfig beltMotorConfig = new SparkMaxConfig();
-    private final SparkMax beltMotor = new SparkMax(IntakeConstants.beltMotorCanID, MotorType.kBrushless);
-
     //for starting the intake
     private final Timer initTimer = new Timer();
     private boolean initializing = false;
@@ -41,12 +38,6 @@ public class Intake extends SubsystemBase {
             .smartCurrentLimit(40);
 
         intakeMotor.configure(intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        beltMotorConfig
-            .inverted(true)
-            .idleMode(IdleMode.kBrake)
-            .smartCurrentLimit(40);
-
-        beltMotor.configure(beltMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
  
     }
 
@@ -89,19 +80,13 @@ public class Intake extends SubsystemBase {
     }
 
     //all power values are placeholders
-    public void intakeIntake() {
+    public void startIntake() {
         intakeMotor.set(0.4); 
-    }
-
-    public void agitateAgitators() {
-        beltMotor.set(0.3);
     }
 
     public void stopIntake() {
         intakeMotor.set(0.0);
     }
 
-    public void stopAgitators() {
-        beltMotor.set(0.0);
-    }
+ 
 }
