@@ -70,9 +70,7 @@ public class Intake extends SubsystemBase {
 
         if (current < ampThreshold) {
             viagraMotor.set(viagraPower);
-        }
-
-        else {
+        } else {
             viagraMotor.set(0);
             viagraEncoder.setPosition(0);
             initializing = false;
