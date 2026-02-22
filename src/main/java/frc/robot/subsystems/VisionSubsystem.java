@@ -80,6 +80,10 @@ public class VisionSubsystem extends SubsystemBase {
         tagToRobot = robotToTag.inverse();
     }
 
+    public boolean hasTargets() {
+        return hasTarget;
+    }
+
     public boolean hasTarget(int desiredId) {
         return hasTarget && targetId == desiredId && tagToRobot != null;
     }

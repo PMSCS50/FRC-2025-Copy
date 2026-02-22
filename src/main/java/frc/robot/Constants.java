@@ -50,7 +50,6 @@ public final class Constants {
       public static final class IntakeConstants {
         public static final int viagraMotorCanId = 0;
         public static final int intakeMotorCanId = 0;
-        public static final int beltMotorCanId = 0;
       }
 
       public static final class ClimbConstants {

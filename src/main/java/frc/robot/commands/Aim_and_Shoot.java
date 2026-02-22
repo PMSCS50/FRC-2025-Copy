@@ -6,10 +6,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
 import java.lang.Math;
+import java.util.Optional;
 
 
 public class AimToBucket extends Command {
@@ -56,7 +59,7 @@ public class AimToBucket extends Command {
     public void execute() {
         if (vision.hasTargets()) {
             dontSeeTargetTimer.reset();
-
+            PhotonPipelineResult result = vision.getLatestResult();
             var targetOptional = result.getTargets().stream()
                             .filter(t -> t.getFiducialId() == Constants.HUB_TAG_ID)
                             .findFirst();
