@@ -15,7 +15,7 @@ import java.lang.Math;
 import java.util.Optional;
 
 
-public class AimToBucket extends Command {
+public class AimAndShoot extends Command {
 
     private final CommandSwerveDrivetrain drivetrain;
     private final VisionSubsystem vision;
@@ -29,7 +29,7 @@ public class AimToBucket extends Command {
     private final SwerveRequest.RobotCentric drive =
             new SwerveRequest.RobotCentric();
 
-    public AimToBucket(
+    public AimAndShoot(
             CommandSwerveDrivetrain drivetrain,
             VisionSubsystem vision,
             Shooter shooter

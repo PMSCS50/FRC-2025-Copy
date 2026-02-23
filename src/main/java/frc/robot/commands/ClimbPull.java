@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 
-public class ClimbPush extends Command {
+public class ClimbPull extends Command {
     private final Climb climb;
 
-    public ClimbPush(Climb climb) {
+    public ClimbPull(Climb climb) {
         this.climb = climb;
         addRequirements(climb);
     }
