@@ -49,12 +49,11 @@ public class Intake extends SubsystemBase {
         initializing = true;
     }
 
-    //This works because when the intake hits the bumper, the stall uses a huge amount of current.
-    //So, we can just check if the current usage exceeds 30 amps and then stop the motor.
+    //When the intake hits the bumper, the stalled motor will use a huge amount of current (probably reaching 40a limit).
+    //So, we can just check if the current usage exceeds 30a and then stop the motor.
     public void initIntake() {
         if (!initializing) return;
-
-        double viagraPower = 0.1     
+             
         double ampThreshold = 30;  
         double timeoutSeconds = 2.0;
 
@@ -67,7 +66,7 @@ public class Intake extends SubsystemBase {
         }
 
         if (current < ampThreshold) {
-            viagraMotor.set(viagraPower);
+            viagraMotor.set(IntakeConstants.viagraPower);
         } else {
             viagraMotor.set(0);
             viagraEncoder.setPosition(0);
@@ -75,9 +74,8 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    //power values are placeholders
     public void startIntake() {
-        intakeMotor.set(0.4); 
+        intakeMotor.set(IntakeConstants.intakePower); 
     }
 
     public void stopIntake() {

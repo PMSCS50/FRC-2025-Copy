@@ -50,6 +50,8 @@ public final class Constants {
       public static final class IntakeConstants {
         public static final int viagraMotorCanId = 0;
         public static final int intakeMotorCanId = 0;
+        public static final double viagraPower = 0.1;
+        public static final double intakePower = 0.4;
       }
 
       public static final class ClimbConstants {
@@ -62,19 +64,20 @@ public final class Constants {
         public static final int shooterMotorCanId = 0;
         public static final int kickerMotorCanId = 0;
 
-        public static final double kickerMotorPower = 0.59; //placeholder value
+        public static final double kickerMotorPower = 0.59;
+        /*
         public static final int coralRoller2CanId = 22;
     
         public static final double chuteSpeed = .7;
         public static final double rollerSlowSpeed = 0.175;
         public static final double rollerFastSpeed = 0.4;
         public static final double rollerBack = -0.2;
+        */
       }
 
       public static final class ClimbConstants{
         public static final int climbMotorCanId = 13;
         public static final double climbSpeed = 1.0;
-        public static final double climbMax = 15.0;
       }
       public static final class VisionConstants{
         public static final Pose3d cameraToRobot = new Pose3d(0.0,0.0,0.0, new Rotation3d(0.0,0.0,0.0));

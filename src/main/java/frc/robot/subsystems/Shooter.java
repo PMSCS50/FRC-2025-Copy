@@ -76,14 +76,14 @@ public class Shooter extends SubsystemBase {
 
     }    
     
-    //Calculates velocity for trajectory to get in shooter given distance. Y value is fixed); 
-    public double velocityFromDistance(double x) {
-        double y = 1.8288 - shooterHeight; // y distance from shooter to hub. May have to change later
-        double phi = Math.toRadians(shooterAngle);
-        double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x*Math.tan(phi) + shooterHeight - y)));       
-        double kp = v / 8;
-        return kp * v; //Fuck air resistance
-    }
+        //Calculates velocity for trajectory to get in shooter given distance; 
+        public double velocityFromDistance(double x) {
+            double y = 1.8288 - shooterHeight;
+            double phi = Math.toRadians(shooterAngle);
+            double v = Math.sqrt((9.807 * x * x) / (2 * Math.cos(phi) * Math.cos(phi) * (x * Math.tan(phi) + shooterHeight - y)));       
+            double kp = v / 8;
+            return kp * v; //im scared that this wont work but theres no way of knowing without trying
+        }
 
 
     public void setVelocityTo(double newVelocity) {
@@ -92,17 +92,15 @@ public class Shooter extends SubsystemBase {
     }
 
     public void startKickerMotor() {
-        kickerMotor.set(kickerMotorPower);
+        kickerMotor.set(ShooterConstants.kickerMotorPower);
     }
 
     
     private double convertToRPM(double velocity) {
-
         double wheelRadius = 0.0508;
         double kp = 1.1; //extra constant to try and account for energy loss
         double wheelRPM = kp * (velocity * 60.0) / (2.0 * Math.PI * wheelRadius);
         return wheelRPM;
-
     }
 
     /** Stop the shooter. */
