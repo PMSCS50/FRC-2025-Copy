@@ -61,8 +61,9 @@ public final class Constants {
       }
 
       public static final class ShooterConstants {
-        public static final int shooterMotorCanId = 4;
-        public static final int kickerMotorCanId = 5;
+        public static final int shooterMotor1CanId = 4;
+        public static final int shooterMotor2CanId = 5;
+        public static final int kickerMotorCanId = 6;
 
         public static final double kickerMotorPower = 0.59;
         /*
