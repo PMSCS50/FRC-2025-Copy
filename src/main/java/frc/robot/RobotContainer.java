@@ -75,7 +75,7 @@ public class RobotContainer {
 
         vision.setDefaultCommand(new UpdateFieldToRobot(drivetrain, vision));
 
-        PathPlannerAuto pathPlanner = new PathPlannerAuto("Ioseb_Vissarionovich_Dzhugashvili");
+        PathPlannerAuto pathPlanner = new PathPlannerAuto("meOW");
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -87,22 +87,7 @@ public class RobotContainer {
         
         
         joystick.x().onTrue(new PV_Align(drivetrain, vision));
-        
-        
-        /*
-        drivetrain.setDefaultCommand(
-            drivetrain.applyRequest(() -> 
-                drive
-                    .withVelocityX(joystick.getLeftY() * MaxSpeed * speedLimiter * directionFlipper)
-                    .withVelocityY(joystick.getLeftX())
-                    .withRotationalRate(joystick.getRightX() * MaxAngularRate)            
-            )
 
-        );
-            SmartDashboard.putNumber("x", vision.getX());
-            SmartDashboard.putNumber("y", vision.getY());
-            SmartDashboard.putNumber("rot", vision.getRot());
-        */
 
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() -> {
