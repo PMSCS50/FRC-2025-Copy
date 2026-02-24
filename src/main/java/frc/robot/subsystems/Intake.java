@@ -12,8 +12,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Intake extends SubsystemBase {
-    //I am calling it the pivot motor because it turns the intake on
-    //We will need this to be a tradition
+
     private final SparkMaxConfig pivotMotorConfig = new SparkMaxConfig();
     private final SparkMax pivotMotor = new SparkMax(IntakeConstants.pivotMotorCanID, MotorType.kBrushless);
     private final RelativeEncoder pivotEncoder = pivotMotor.getEncoder();

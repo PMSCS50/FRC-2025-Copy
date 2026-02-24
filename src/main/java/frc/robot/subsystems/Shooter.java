@@ -32,10 +32,12 @@ Finish convertToRPM();
 
 public class Shooter extends SubsystemBase {
     // Configuration for the shooter motor
-    private final TalonFXConfiguration shooterMotorConfig = new TalonFXConfiguration();
+    private final TalonFXConfiguration shooterMotorConfig1 = new TalonFXConfiguration();
+    private final TalonFXConfiguration shooterMotorConfig2 = new TalonFXConfiguration();
     private final SparkMaxConfig kickerMotorConfig = new SparkMaxConfig();
 
-    final TalonFX shooterMotor = new TalonFX(ShooterConstants.shooterMotorCanId);
+    final TalonFX shooterMotor1 = new TalonFX(ShooterConstants.shooterMotor1CanId);
+    final TalonFX shooterMotor2 = new TalonFX(ShooterConstants.shooterMotor2CanId);
     final SparkMax kickerMotor = new SparkMax(ShooterConstants.kickerMotorCanId, MotorType.kBrushless);
 
 
@@ -49,9 +51,11 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         //TalonFX shooterMotorConfig
-        configureShooterMotor();
+        configureShooterMotor(shooterMotorConfig1);
+        configureShooterMotor(shooterMotorConfig2);
 
-        shooterMotor.getConfigurator().apply(shooterMotorConfig);
+        shooterMotor1.getConfigurator().apply(shooterMotor1Config);
+        shooterMotor2.getConfigurator().apply(shooterMotor2Config);
 
         kickerMotorConfig
             // .inverted(true)
@@ -61,14 +65,14 @@ public class Shooter extends SubsystemBase {
         kickerMotor.configure(kickerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    private void configureShooterMotor() {
+    private void configureShooterMotor(TalonFXConfiguration shooterMotorConfig) {
         shooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         shooterMotorConfig.CurrentLimits.SupplyCurrentLimit = 20;
         shooterMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-        shooterMotorconfig.Slot0.kP = 0.000001; // Just a guess, do later
-        shooterMotorconfig.Slot0.kI = 0;
-        shooterMotorconfig.Slot0.kD = 0;
+        shooterMotorConfig.Slot0.kP = 0.1; // Just a guess, do later
+        shooterMotorConfig.Slot0.kI = 0;
+        shooterMotorConfig.Slot0.kD = 0;
     }
 
     @Override
@@ -88,7 +92,8 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocityTo(double newVelocity) {
         velocity = newVelocity;
-        shooterMotor.setControl(velocityRequest.withVelocity(convertToRPM(rpm / 60.0)));
+        shooterMotor1.setControl(velocityRequest.withVelocity(convertToRPM(velocity / 60.0)));
+        shooterMotor2.setControl(velocityRequest.withVelocity(convertToRPM(velocity / 60.0)));
     }
 
     public void startKickerMotor() {
