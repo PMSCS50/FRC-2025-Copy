@@ -50,8 +50,8 @@ public class AimAndShoot extends Command {
 
     @Override
     public void initialize() {
-        dontSeeTargetTimer.restart();
-        onTargetTimer.restart();
+        //dontSeeTargetTimer.restart();
+        //onTargetTimer.restart();
 
         rotController.setSetpoint(0.0); // bucket centered
         rotController.setTolerance(Constants.BUCKET_AIM_TOLERANCE_DEG);
@@ -67,7 +67,7 @@ public class AimAndShoot extends Command {
 
             if (targetOptional.isPresent()) {
                 var target = targetOptional.get();
-                dontSeeTargetTimer.reset();
+                //dontSeeTargetTimer.reset();
     
                 // 1. Get Distance (Direct 3D vector, ignores height constants)
                 var translation = target.getBestCameraToTarget().getTranslation();
@@ -85,9 +85,9 @@ public class AimAndShoot extends Command {
                 drivetrain.setControl(drive.withRotationalRate(rotSpeed));
     
                 if (rotController.atSetpoint()) {
-                    if (!onTargetTimer.isRunning()) {
-                        onTargetTimer.restart();
-                    }
+                    //if (!onTargetTimer.isRunning()) {
+                    //    onTargetTimer.restart();
+                    //}
                     shooter.setVelocityTo(shooter.velocityFromDistance(distance));
                 } else {
                     shooter.stop();
@@ -99,6 +99,12 @@ public class AimAndShoot extends Command {
                 ); 
                 shooter.stop();
             }
+        } else {
+            drivetrain.setControl(drive.
+                withRotationalRate(0)
+            );
+            shooter.stop();
+            return;
         }
 
     }
@@ -116,7 +122,8 @@ public class AimAndShoot extends Command {
 
     @Override
     public boolean isFinished() {
-        return dontSeeTargetTimer.hasElapsed(Constants.DONT_SEE_TAG_WAIT_TIME)
-            || onTargetTimer.hasElapsed(Constants.POSE_VALIDATION_TIME);
+        //return dontSeeTargetTimer.hasElapsed(Constants.DONT_SEE_TAG_WAIT_TIME)
+        //    || onTargetTimer.hasElapsed(Constants.POSE_VALIDATION_TIME);
+        return false;
     }
 }
