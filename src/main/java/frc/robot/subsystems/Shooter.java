@@ -12,9 +12,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.controls.DutyCycleOut;
+//import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.signals.MotorAlignmentValue; // Added this
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,7 +38,7 @@ public class Shooter extends SubsystemBase {
     // Configuration for the shooter motor
     private final TalonFXConfiguration shooterMotor1Config = new TalonFXConfiguration();
     private final TalonFXConfiguration shooterMotor2Config = new TalonFXConfiguration();
-    private DutyCycleOut motorControl = new DutyCycleOut(0.0);
+    //private DutyCycleOut motorControl = new DutyCycleOut(0.0);
     private final SparkMaxConfig kickerMotor1Config = new SparkMaxConfig();
     private final SparkMaxConfig kickerMotor2Config = new SparkMaxConfig();
 
@@ -47,7 +48,7 @@ public class Shooter extends SubsystemBase {
     final SparkMax kickerMotor2 = new SparkMax(ShooterConstants.kickerMotor2CanId, MotorType.kBrushless);
 
 
-    private final VelocityVoltage velocityRequest = new VelocityVoltage(0);
+    private final VelocityVoltage velocityRequest;
 
 
 
@@ -65,6 +66,8 @@ public class Shooter extends SubsystemBase {
 
         shooterMotor2.setControl(new Follower(shooterMotor1.getDeviceID(), MotorAlignmentValue.Opposed));
 
+        velocityRequest = new VelocityVoltage(0.0);
+
         kickerMotor1Config
             // .inverted(true)
             .idleMode(IdleMode.kCoast)
@@ -73,16 +76,17 @@ public class Shooter extends SubsystemBase {
             // .inverted(true)
             .idleMode(IdleMode.kCoast)
             .smartCurrentLimit(20);
+
         kickerMotor1.configure(kickerMotor1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         kickerMotor2.configure(kickerMotor2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        kickerMotor2.follow(kickerMotor1,true);
     }
 
     private void configureShooterMotor(TalonFXConfiguration shooterMotorConfig) {
         shooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        shooterMotorConfig.CurrentLimits.SupplyCurrentLimit = 20;
         shooterMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-        shooterMotorCOnfig.Slot0.kV = 0.1;
+        shooterMotorConfig.Slot0.kV = 0.1;
         shooterMotorConfig.Slot0.kP = 0.1;
         shooterMotorConfig.Slot0.kI = 0;
         shooterMotorConfig.Slot0.kD = 0;
@@ -110,9 +114,7 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocityTo(double newVelocity) {
         velocity = newVelocity;
-        shooterMotor1.setControl(motorControl.withOutput(
-            velocityRequest.withVelocity(convertToRPM(velocity) / 60)
-        ));
+        shooterMotor1.setControl(velocityRequest.withVelocity(convertToRPM(velocity) / 60));
     }
 
     public void startKickerMotor() {
@@ -123,8 +125,8 @@ public class Shooter extends SubsystemBase {
     
     private double convertToRPM(double velocity) {
         double wheelRadius = 0.0508;
-        double kp = 1.1; //extra constant to try and account for energy loss
-        double wheelRPM = kp * (velocity * 60.0) / (2.0 * Math.PI * wheelRadius);
+        double c = 1;
+        double wheelRPM = c * (velocity * 60.0) / (2.0 * Math.PI * wheelRadius);
         return wheelRPM;
     }
 
@@ -138,9 +140,9 @@ public class Shooter extends SubsystemBase {
         return velocity;
     }
 
-    /** Returns true if the shooter is currently running (non-zero velocity). */
+    /** Returns true if the shooter is currently running */
     public boolean isShooting() {
-        return velocity != 0.0;
+        return !(Math.abs(velocity) <= 0.01);
     }
 }
 
