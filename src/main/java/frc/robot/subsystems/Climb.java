@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.DigitalInput;
-import com.ctre.phoenix6.signals.MotorAlignmentValue; // Added this
-import com.ctre.phoenix6.controls.Follower;
 
 public class Climb extends SubsystemBase {
     //1 = left (facing forwards), 2 = right (facing forwards)
