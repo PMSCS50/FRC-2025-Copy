@@ -78,7 +78,7 @@ public class AimAndShoot extends Command {
     
                 // 1. Get Distance (Direct 3D vector, ignores height constants)
                 var translation = target.getBestCameraToTarget().getTranslation();
-                double aprilTagToHub = 0.7342703628; // May have to change this value
+                double aprilTagToHub = 0.725180; // May have to change this value
                 
                 double dx = translation.getX() + aprilTagToHub; //forward distance to hub (RobotToApriltagX + AprilTagToHubX)
                 double dy = translation.getY(); //horizontal distance to the hub
