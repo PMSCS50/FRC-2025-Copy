@@ -85,37 +85,42 @@ public class AimAndShoot extends Command {
                 
                 double distance = Math.hypot(dx,dy);
                 double phi = Math.toRadians(70);
-
-                double unitX = dx / distance;
-                double unitY = dy / distance;
-                double vStationary = shooter.velocityFromDistance(distance);
-
-                double vHorizontal = vStationary * Math.cos(phi);
-
-                double desiredVx = vHorizontal * unitX;
-                double desiredVy = vHorizontal * unitY;
-
-                var speeds = drivetrain.getSpeeds();
-
-                var fieldSpeeds = 
-                    ChassisSpeeds.fromRobotRelativeSpeeds(
-                        speeds,
-                        drivetrain.getState().Pose.getRotation()
-                    );
-
-                double vxField = fieldSpeeds.vxMetersPerSecond;
-                double vyField = fieldSpeeds.vyMetersPerSecond;
-
-                double correctedVx = desiredVx - vxField;
-                double correctedVy = desiredVy - vyField;
-                
-                //2. get yaw for robot to turn (target.getYawRad() aims to apriltag, not hub.)
+                //2. get yaw
                 double yaw = Math.atan2(dy,dx);
-                double correctedYaw = Math.atan2(correctedVy,correctedVx); 
-                double correction = MathUtil.angleModulus(correctedYaw - yaw);
-                correction = MathUtil.clamp(correction, -0.2, 0.2); //safety clamp so shit doesnt get too crazy
-                double bestYaw = yaw + correction;
                 double robotYaw = drivetrain.getPose().getRotation();
+                double bestYaw = yaw;
+
+                //2.5. Yaw correction if robot is moving
+                if (Math.abs(vx) > 0.01 && Math.abs(vy) > 0.01) {
+                    double unitX = dx / distance;
+                    double unitY = dy / distance;
+                    double vStationary = shooter.velocityFromDistance(distance);
+
+                    double vHorizontal = vStationary * Math.cos(phi);
+
+                    double desiredVx = vHorizontal * unitX;
+                    double desiredVy = vHorizontal * unitY;
+
+                    var speeds = drivetrain.getSpeeds();
+
+                    var fieldSpeeds = 
+                        ChassisSpeeds.fromRobotRelativeSpeeds(
+                            speeds,
+                            drivetrain.getState().Pose.getRotation()
+                        );
+
+                    double vxField = fieldSpeeds.vxMetersPerSecond;
+                    double vyField = fieldSpeeds.vyMetersPerSecond;
+
+                    double correctedVx = desiredVx - vxField;
+                    double correctedVy = desiredVy - vyField;
+                    
+                    double correctedYaw = Math.atan2(correctedVy,correctedVx); 
+                    double correction = MathUtil.angleModulus(correctedYaw - yaw);
+                    //safety clamp so shit doesnt get too crazy
+                    correction = MathUtil.clamp(correction, -0.2, 0.2); 
+                    bestYaw += correction;
+                }              
 
                 // 3. Control Loop
                 rotController.setSetpoint(bestYaw);
