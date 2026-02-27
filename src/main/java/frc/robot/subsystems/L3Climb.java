@@ -49,9 +49,8 @@ public class Climb extends SubsystemBase {
         climbMotor3.configure(climbMotor3Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         climbMotor4.configure(climbMotor4Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        climbMotorConfig.follow(climbMotor1);
-        climbMotor3.follow(climbMotor1,true);
-        climbMotor4.follow(climbMotor2,true);
+        climbMotor2.follow(climbMotor1,true);
+        climbMotor4.follow(climbMotor3,true);
     }
 
     @Override
@@ -78,6 +77,14 @@ public class Climb extends SubsystemBase {
         } else {
             climbMotor1.set(-ClimbConstants.climbSpeed);
         }
+    }
+
+    public void slideOut() {
+        climbMotor3.set(ClimbConstants.slideSpeed);
+    }
+
+    public void slideIn() {
+        climbMotor3.set(ClimbConstants.slideSpeed);
     }
 
     public void stopClimb() {
