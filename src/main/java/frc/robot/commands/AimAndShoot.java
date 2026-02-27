@@ -98,7 +98,7 @@ public class AimAndShoot extends Command {
                 double vxField = fieldSpeeds.vxMetersPerSecond;
                 double vyField = fieldSpeeds.vyMetersPerSecond;
 
-                //4. Correct values of vv, vy (for shooter, not driving), and yaw
+                //4. find and correct values of vv, vy (for shooter, not driving), and yaw
                 double[] correctedValues = shooter.correctVandYaw(dx,dy,yaw, vxField, vyField);
                 double correctedVx = correctedValues[0];
                 double correctedVy = correctedValues[1];
