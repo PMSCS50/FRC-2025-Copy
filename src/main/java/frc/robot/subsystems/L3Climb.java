@@ -59,7 +59,7 @@ public class Climb extends SubsystemBase {
         SmartDashboard.putBoolean("Climb limit switch HOOK", limitSwitchHook.get())
         SmartDashboard.putBoolean("Climb limit switch TOP", limitSwitchTop.get());
         SmartDashboard.putBoolean("Climb limit switch BOTTOM", limitSwitchBottom.get());
-        SmartDashboard.putNumber("Climb position", getDistance());
+        SmartDashboard.putNumber(" Climb position", getDistance());
     }
 
     public void pull(){
