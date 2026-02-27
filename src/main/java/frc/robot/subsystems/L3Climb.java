@@ -23,6 +23,9 @@ public class Climb extends SubsystemBase {
     private final SparkMax climbMotor1 = new SparkMax(ClimbConstants.climbMotor1CanId, MotorType.kBrushless);
     private final SparkMax climbMotor2 = new SparkMax(ClimbConstants.climbMotor2CanId, MotorType.kBrushless);
 
+    private final SparkMax climbMotor3 = new SparkMax(ClimbConstants.climbMotor3CanId, MotorType.kBrushless);
+    private final SparkMax climbMotor4 = new SparkMax(ClimbConstants.climbMotor4CanId, MotorType.kBrushless);
+
     private RelativeEncoder climbEncoder = climbMotor1.getEncoder(); 
 
     private final DigitalInput limitSwitchHook = new DigitalInput(1);
@@ -33,7 +36,7 @@ public class Climb extends SubsystemBase {
 
     public Climb() {
         
-        SparkMaxConfig[] configs = {climbMotor1Config, climbMotor2Config};
+        SparkMaxConfig[] configs = {climbMotor1Config, climbMotor2Config, climbMotor3Config, climbMotor4Config};
         
         for (SparkMaxConfig climbMotorConfig : configs) {
             climbMotor1Config
@@ -43,8 +46,12 @@ public class Climb extends SubsystemBase {
         }
         climbMotor1.configure(climbMotor1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         climbMotor2.configure(climbMotor2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        climbMotor3.configure(climbMotor3Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        climbMotor4.configure(climbMotor4Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        climbMotor2.follow(climbMotor1,true);
+        climbMotorConfig.follow(climbMotor1);
+        climbMotor3.follow(climbMotor1,true);
+        climbMotor4.follow(climbMotor2,true);
     }
 
     @Override
