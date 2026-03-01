@@ -42,10 +42,10 @@ public class Shooter extends SubsystemBase {
     private final SparkMaxConfig kickerMotor1Config = new SparkMaxConfig();
     private final SparkMaxConfig kickerMotor2Config = new SparkMaxConfig();
 
-    final TalonFX shooterMotor1 = new TalonFX(ShooterConstants.shooterMotor1CanId);
-    final TalonFX shooterMotor2 = new TalonFX(ShooterConstants.shooterMotor2CanId);
-    final SparkMax kickerMotor1 = new SparkMax(ShooterConstants.kickerMotor1CanId, MotorType.kBrushless);
-    final SparkMax kickerMotor2 = new SparkMax(ShooterConstants.kickerMotor2CanId, MotorType.kBrushless);
+    private final TalonFX shooterMotor1 = new TalonFX(ShooterConstants.shooterMotor1CanId);
+    private final TalonFX shooterMotor2 = new TalonFX(ShooterConstants.shooterMotor2CanId);
+    private final SparkMax kickerMotor1 = new SparkMax(ShooterConstants.kickerMotor1CanId, MotorType.kBrushless);
+    private final SparkMax kickerMotor2 = new SparkMax(ShooterConstants.kickerMotor2CanId, MotorType.kBrushless);
 
     private final VelocityVoltage velocityRequest;
 
@@ -115,8 +115,12 @@ public class Shooter extends SubsystemBase {
         shooterMotor1.setControl(velocityRequest.withVelocity(convertToRPM(velocity) / 60));
     }
 
-    public void startKickerMotor() {
+    public void startKickerMotors() {
         kickerMotor1.set(ShooterConstants.kickerMotorPower);
+    }
+
+    public void stopKickerMotors() {
+        kickerMotor1.set(0);
     }
 
     
@@ -167,6 +171,12 @@ public class Shooter extends SubsystemBase {
 
     public double getVelocity() {
         return velocity;
+    }
+
+    public double getShooterRPM() {
+        double ticksPer100ms = shooterMotor1.getSelectedSensorVelocity();
+        double rpm = ticksPer100ms * (10.0 / 245760); 
+        return rpm;
     }
 
     /** Returns true if the shooter is currently running */

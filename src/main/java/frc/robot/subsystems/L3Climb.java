@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class Climb extends SubsystemBase {
+// THIS CLASS IS FOR OLIVER'S L3 CLIMB. REPLACE THE ORIGINAL CLIMB CLASS WITH THIS ONCE THE L3 CLIMB IS DONE
+
+public class L3Climb extends SubsystemBase {
     //1 = left (facing forwards), 2 = right (facing forwards)
 
     private final SparkMaxConfig climbMotor1Config = new SparkMaxConfig();
@@ -29,8 +31,8 @@ public class Climb extends SubsystemBase {
     private final SparkMax slideMotor1 = new SparkMax(L3ClimbConstants.slideMotor1CanId, MotorType.kBrushless);
     private final SparkMax slideMotor2 = new SparkMax(L3ClimbConstants.slideMotor2CanId, MotorType.kBrushless);
 
-    private RelativeEncoder climbEncoder = climbMotor1.getEncoder();
-    private RelativeEncoder sliderEncoder = slideMotor1.getEncoder(); 
+    private final RelativeEncoder climbEncoder = climbMotor1.getEncoder();
+    private final RelativeEncoder sliderEncoder = slideMotor1.getEncoder(); 
 
     private final DigitalInput limitSwitchHook = new DigitalInput(1);
     private final DigitalInput limitSwitchTop = new DigitalInput(2);
@@ -53,8 +55,10 @@ public class Climb extends SubsystemBase {
         slideMotor3.configure(slideMotor1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         slideMotor4.configure(slideMotor2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        climbMotor2.follow(climbMotor1,true);
-        slideMotor2.follow(slideMotor1,true);
+        double inverted = true;
+
+        climbMotor2.follow(climbMotor1,inverted);
+        slideMotor2.follow(slideMotor1,inverted);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class Climb extends SubsystemBase {
         SmartDashboard.putNumber(" Climb position", getDistance());
     }
 
-    public void pull(){
+    public void pullOuterArms(){
         if (limitSwitchHook.get()) {
             if (!limitSwitchTop.get()) {
                 climbMotor1.set(0);
@@ -75,8 +79,8 @@ public class Climb extends SubsystemBase {
         }
     }
     
-    public void push() {
-        if (limitSwitchBottom.get()) {
+    public void pullInnerArms() {
+        if (limitSwitchHook.get()) {
             climbMotor1.set(0);
         } else {
             climbMotor1.set(-L3ClimbConstants.climbSpeed);
@@ -92,8 +96,7 @@ public class Climb extends SubsystemBase {
     }
 
     public void slideIn() {
-        double current = slideMotor1.getOutputCurrent();
-        if (current > 30) {
+        if (getSliderDistance() <= 0.01) {
             slideMotor1.set(0);
         } else {
             slideMotor1.set(-L3ClimbConstants.slideSpeed);
@@ -122,14 +125,14 @@ public class Climb extends SubsystemBase {
     
     
     public double getDistance() {
-        double climbMotorRadius = 0.689;
+        double climbMotorRadius = 0.125;
         double distance = climbEncoder.getPosition() * 2 * Math.PI * climbMotorRadius;
         return distance;
     }
 
     public double getSliderDistance() {
-        double climbMotorRadius = 0.689;
-        double distance = sliderEncoder.getPosition() * 2 * Math.PI * climbMotorRadius;
+        double slideMotorRadius = 0.125;
+        double distance = sliderEncoder.getPosition() * 2 * Math.PI * slideMotorRadius;
         return distance;
     }
 

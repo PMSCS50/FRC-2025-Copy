@@ -50,6 +50,7 @@ public final class Constants {
       public static final class IntakeConstants {
         public static final int pivotMotorCanId = 1;
         public static final int intakeMotorCanId = 2;
+
         public static final double pivotPower = 0.1;
         public static final double intakePower = 0.4;
       }
@@ -57,9 +58,9 @@ public final class Constants {
       public static final class ClimbConstants {
         public static final int climbMotor1CanId = 3;
         public static final int climbMotor2CanId = 4;
+
         public static final double climbSpeed = 0.78;
-        public static final double climbMax = 0;
-        public static final double slideSpeed = 1;
+        public static final double climbMax = 30;
       }
 
       public static final class ShooterConstants {
@@ -76,6 +77,7 @@ public final class Constants {
         public static final int climbMotor2CanId = 12;
         public static final int slideMotor1CanId = 13;
         public static final int slideMotor2CanId = 14;
+
         public static final double climbSpeed = 0.78;
         public static final double climbMax = 30;
         public static final double slideSpeed = 0.6;
