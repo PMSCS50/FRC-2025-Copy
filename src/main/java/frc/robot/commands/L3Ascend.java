@@ -22,7 +22,7 @@ public class L3Ascend extends Command {
 
     @Override
     public void execute() {
-        if (climb.getClimbStatus() != "outerArmsDone") {
+        if (climb.getClimbStatus() != "OuterArmsDone") {
             climb.pullOuterArms();
         } else {
             climb.pullInnerArms();

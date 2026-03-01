@@ -74,7 +74,7 @@ public class L3Climb extends SubsystemBase {
         if (limitSwitchHook.get()) {
             if (!(limitSwitchTop.get() || limitSwitchBottom.get())) {
                 climbMotor1.set(0);
-                climbStatus = "outerArmsDone";
+                climbStatus = "OuterArmsDone";
             } else {       
                 climbMotor1.set(L3ClimbConstants.climbSpeed);
             }
@@ -113,7 +113,7 @@ public class L3Climb extends SubsystemBase {
     }
 
     public void slideIn() {
-        if (getSliderDistance() <= 0.01) {
+        if (getSliderDistance() <= 0.05) {
             slideMotor1.set(0);
         } else {
             slideMotor1.set(-L3ClimbConstants.slideSpeed);
