@@ -36,7 +36,7 @@ public class L1Descend extends Command {
 
     @Override
     public boolean isFinished() {
-        return !climb.getClimbLevel() == 0 && climb.getClimbStatus().equals("InnerArmsDoneHalfway");
+        return climb.getClimbLevel() == 0 && climb.getClimbStatus().equals("InnerArmsDoneHalfway");
     }
 
     @Override
