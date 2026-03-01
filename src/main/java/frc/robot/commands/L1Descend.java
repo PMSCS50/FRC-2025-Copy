@@ -23,18 +23,20 @@ public class L1Descend extends Command {
     public void execute() {
         if (climb.getTopLimit()) {
             climb.pullOuterArms();
+        } else if (climb.getSlideStatus() == "out") {
+            climb.slideIn();
         } else {
             climb.pullInnerArmsHalfway();
         }
     }
 
     public void end() {
-        
+
     }
 
     @Override
     public boolean isFinished() {
-        return climb.getClimbStatus() == "InnerArmsDoneHalfway";
+        
     }
 
     @Override

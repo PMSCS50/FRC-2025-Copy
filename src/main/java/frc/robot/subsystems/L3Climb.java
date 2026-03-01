@@ -39,6 +39,7 @@ public class L3Climb extends SubsystemBase {
     private final DigitalInput limitSwitchBottom = new DigitalInput(3);
 
     private String climbStatus = "climbDown";
+    private String slideStatus = "in";
 
 
     public L3Climb() {
@@ -107,6 +108,7 @@ public class L3Climb extends SubsystemBase {
     public void slideOut() {
         if (getSliderDistance() >= 4) {
             slideMotor1.set(0);
+            slideStatus = "out";
         } else {
             slideMotor1.set(L3ClimbConstants.slideSpeed);
         }
@@ -115,6 +117,7 @@ public class L3Climb extends SubsystemBase {
     public void slideIn() {
         if (getSliderDistance() <= 0.05) {
             slideMotor1.set(0);
+            slideStatus = "in";
         } else {
             slideMotor1.set(-L3ClimbConstants.slideSpeed);
         }
@@ -142,6 +145,10 @@ public class L3Climb extends SubsystemBase {
     
     public String getClimbStatus() {
         return climbStatus;
+    }
+
+    public String getSlideStatus() {
+        return slideStatus;
     }
     
     public double getDistance() {
