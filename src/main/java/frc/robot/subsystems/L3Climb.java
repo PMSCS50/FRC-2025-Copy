@@ -40,6 +40,7 @@ public class L3Climb extends SubsystemBase {
 
     private String climbStatus = "climbDown";
     private String slideStatus = "in";
+    private int climbLevel = 0;
 
 
     public L3Climb() {
@@ -73,8 +74,13 @@ public class L3Climb extends SubsystemBase {
 
     public void pullOuterArms(){
         if (limitSwitchHook.get()) {
-            if (!(limitSwitchTop.get() || limitSwitchBottom.get())) {
+            if (!limitSwitchTop.get()) {
                 climbMotor1.set(0);
+                if (climbStatus.equals("InnerArmsDoneHalfway")) {
+                    climbLevel--;
+                } else {
+                    climbLevel++;
+                }
                 climbStatus = "OuterArmsDone";
             } else {       
                 climbMotor1.set(L3ClimbConstants.climbSpeed);
@@ -84,8 +90,9 @@ public class L3Climb extends SubsystemBase {
     
     public void pullInnerArms() {
         if (limitSwitchHook.get()) {
-            if (!limitSwitchTop.get()) {
+            if (!limitSwitchBottom.get()) {
                 climbMotor1.set(0);
+                climbLevel++;
                 climbStatus = "InnerArmsDone";
             } else {
                 climbMotor1.set(-L3ClimbConstants.climbSpeed);
@@ -96,7 +103,7 @@ public class L3Climb extends SubsystemBase {
     //only for L1 during autonomous, so we can get down
     public void pullInnerArmsHalfway() {
         if (limitSwitchHook.get()) {
-            if (getDistance() <= 13) {
+            if (getDistance() <= 15) {
                 climbMotor1.set(0);
                 climbStatus = "InnerArmsDoneHalfway";
             } else {
@@ -143,8 +150,16 @@ public class L3Climb extends SubsystemBase {
         return limitSwitchTop.get();
     }
     
+    public void setClimbStatus(String status) {
+        climbStatus = status;
+    }
+
     public String getClimbStatus() {
         return climbStatus;
+    }
+
+    public int getClimbLevel() {
+        return climbLevel;
     }
 
     public String getSlideStatus() {
@@ -161,6 +176,10 @@ public class L3Climb extends SubsystemBase {
         double slideMotorRadius = 0.125;
         double distance = sliderEncoder.getPosition() * 2 * Math.PI * slideMotorRadius;
         return distance;
+    }
+
+    public double getVelocity() {
+        return climbEncoder.getVelocity();
     }
 
 

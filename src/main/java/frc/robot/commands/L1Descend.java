@@ -21,7 +21,7 @@ public class L1Descend extends Command {
 
     @Override
     public void execute() {
-        if (climb.getTopLimit()) {
+        if (climb.getClimbLevel() == 1) {
             climb.pullOuterArms();
         } else if (climb.getSlideStatus() == "out") {
             climb.slideIn();
@@ -36,7 +36,7 @@ public class L1Descend extends Command {
 
     @Override
     public boolean isFinished() {
-        return !climb.getTopLimit() && climb.getClimbStatus().equals("InnerArmsDoneHalfway");
+        return !climb.getClimbLevel() == 0 && climb.getClimbStatus().equals("InnerArmsDoneHalfway");
     }
 
     @Override

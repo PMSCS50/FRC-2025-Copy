@@ -17,11 +17,12 @@ public class L1Ascend extends Command {
     @Override
     public void initialize() {
         climb.slideOut();
+        climb.setStatus("AtBase");
     }
 
     @Override
     public void execute() {
-        if (climb.getTopLimit()) {
+        if (climb.getClimbLevel() == 0) {
             climb.pullOuterArms();
         } else {
             climb.pullInnerArmsHalfway();
