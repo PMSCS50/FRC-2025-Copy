@@ -22,13 +22,12 @@ public class L3Ascend extends Command {
 
     @Override
     public void execute() {
-        if (climb.getVelocity() == 0) {
-            if (!climb.getClimbStatus().equals("OuterArmsDone")) {
-                climb.pullOuterArms();
-            } else {
-                climb.pullInnerArms();
-            }
+        if (!climb.getClimbStatus().equals("OuterArmsDone")) {
+            climb.pullOuterArms();
+        } else {
+            climb.pullInnerArms();
         }
+
     }
 
     @Override
@@ -38,7 +37,7 @@ public class L3Ascend extends Command {
 
     @Override
     public boolean isFinished() {
-        return climb.getClimbLevel == 3;
+        return climb.getClimbLevel() == 3;
     }
 
     @Override
