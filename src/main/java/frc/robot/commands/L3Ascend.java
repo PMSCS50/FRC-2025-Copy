@@ -30,11 +30,12 @@ public class L3Ascend extends Command {
     }
 
     public void end() {
-        return !(climb.getTopLimit() || climb.getHookLimit());
+        climb.stopClimb();
     }
 
     @Override
     public boolean isFinished() {
+        return !(climb.getTopLimit() || climb.getHookLimit());
     }
 
     @Override

@@ -140,7 +140,7 @@ public class L3Climb extends SubsystemBase {
         return limitSwitchTop.get();
     }
     
-    public int getClimbStatus() {
+    public String getClimbStatus() {
         return climbStatus;
     }
     
