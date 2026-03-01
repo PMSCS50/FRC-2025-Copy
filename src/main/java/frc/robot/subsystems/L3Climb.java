@@ -38,7 +38,7 @@ public class L3Climb extends SubsystemBase {
     private final DigitalInput limitSwitchTop = new DigitalInput(2);
     private final DigitalInput limitSwitchBottom = new DigitalInput(3);
 
-    private double ClimbStatus;
+    private double ClimbStatus = 0;
 
     public Climb() {
         
@@ -81,9 +81,22 @@ public class L3Climb extends SubsystemBase {
     
     public void pullInnerArms() {
         if (limitSwitchHook.get()) {
-            climbMotor1.set(0);
-        } else {
-            climbMotor1.set(-L3ClimbConstants.climbSpeed);
+            if (!limitSwitchTop.get()) {
+                climbMotor1.set(0);
+            } else {
+                climbMotor1.set(-L3ClimbConstants.climbSpeed);
+            }
+        }
+    }
+
+    //only for L1 during autonomous, so we can get down
+    public void pullInnerArmsHalfway() {
+        if (limitSwitchHook.get()) {
+            if (getDistance() <= 13) {
+                climbMotor1.set(0);
+            } else {
+                climbMotor1.set(-L3ClimbConstants.climbSpeed);
+            }
         }
     }
 
