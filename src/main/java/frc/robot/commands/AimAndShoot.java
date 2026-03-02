@@ -87,7 +87,7 @@ public class AimAndShoot extends Command {
                 
                 //2. get target and robot yaw
                 double yaw = Math.atan2(dy,dx);
-                double robotYaw = drivetrain.getPose().getRotation().getRadians();
+                double robotYaw = drivetrain.getPose().getRotation().getZ();
                 
                 //3. get field speeds
                 var fieldSpeeds = 
